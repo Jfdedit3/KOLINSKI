@@ -1,43 +1,41 @@
 -- Références
 local TweenService = game:GetService("TweenService")
-local StarterGui = game:GetService("StarterGui")
-local ScreenGui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
-local TextLabel = Instance.new("TextLabel", ScreenGui)
+local PlayerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Paramètres de base du TextLabel
-TextLabel.Size = UDim2.new(0.3, 0, 0.1, 0)  -- Taille du label (30% de la largeur, 10% de la hauteur)
-TextLabel.Position = UDim2.new(1, -10, 0, 10)  -- Position en haut à droite avec une marge de 10 pixels
-TextLabel.AnchorPoint = Vector2.new(1, 0)  -- Ancrer le TextLabel à droite
-TextLabel.TextScaled = true
-TextLabel.BackgroundTransparency = 1
-TextLabel.TextTransparency = 1
-TextLabel.Font = Enum.Font.SourceSans
-TextLabel.TextColor3 = Color3.new(1, 1, 1)
-TextLabel.Text = "Welcome to KOLINSKI"
+-- Crée une nouvelle instance de ScreenGui et l'ajoute au PlayerGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = PlayerGui
 
--- Fonction pour animer l'apparition du texte
-local function animateText(duration)
+-- Crée un TextLabel pour afficher le texte "Welcome to KOLINSKI"
+local textLabel = Instance.new("TextLabel", screenGui)
+textLabel.Size = UDim2.new(0.5, 0, 0.1, 0)  -- Taille du label (50% largeur, 10% hauteur)
+textLabel.Position = UDim2.new(0.5, 0, 0.5, 0)  -- Centré
+textLabel.AnchorPoint = Vector2.new(0.5, 0.5)  -- Centre de l'ancrage
+textLabel.TextScaled = true  -- Le texte s'ajuste à la taille du label
+textLabel.BackgroundTransparency = 1  -- Pas d'arrière-plan
+textLabel.TextTransparency = 1  -- Début avec texte transparent
+textLabel.Font = Enum.Font.GothamBold  -- Police stylée et moderne
+textLabel.TextColor3 = Color3.new(1, 1, 1)  -- Texte blanc
+textLabel.Text = "Welcome to KOLINSKI"
+
+-- Fonction pour animer l'apparition du texte avec TweenService
+local function animateTextInOut(duration, pauseTime)
     local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-    local goal = {TextTransparency = 0}
-    local tween = TweenService:Create(TextLabel, tweenInfo, goal)
-    tween:Play()
-    wait(duration)
-    goal.TextTransparency = 1
-    tween = TweenService:Create(TextLabel, tweenInfo, goal)
-    tween:Play()
-    wait(duration)
+    
+    -- Animation d'apparition
+    local appearGoal = {TextTransparency = 0}
+    local appearTween = TweenService:Create(textLabel, tweenInfo, appearGoal)
+    appearTween:Play()
+    wait(duration + pauseTime)  -- Pause après apparition
+    
+    -- Animation de disparition
+    local disappearGoal = {TextTransparency = 1}
+    local disappearTween = TweenService:Create(textLabel, tweenInfo, disappearGoal)
+    disappearTween:Play()
 end
 
--- Fonction pour envoyer une notification simple (supplémentaire si nécessaire)
-local function sendNotification(title, text, duration)
-    StarterGui:SetCore("SendNotification", {
-        Title = title;
-        Text = text;
-        Duration = duration;
-    })
-end
-
-animateText(2)  -- Animation sur 2 secondes pour l'apparition/disparition
+-- Lance l'animation avec une durée d'apparition de 2 secondes et une pause de 2 secondes avant disparition
+animateTextInOut(0.5, 1)
 wait(2)
 
 if IY_LOADED and not _G.IY_DEBUG == true then
