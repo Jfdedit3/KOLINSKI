@@ -58,7 +58,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '0.1'
+currentVersion = '1'
 
 -- GOTO line 11986 for 4nn1's Place stuff
 -- For _Real: Add more useless stuff, Add more bang type commands.
