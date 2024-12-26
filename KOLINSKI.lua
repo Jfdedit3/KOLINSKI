@@ -254,7 +254,7 @@ Title.TextSize = 18
 if os.date("*t", os.time()).month == 4 then
 	Title.Text = "Ligma Balls v"  .. currentVersion
 else
-	if string.find(currentVersion, '6.1') then
+	if string.find(currentVersion, '6') then
 		Title.Text = "KOLINSKI Yield by z4trox v" .. currentVersion
 	else
 		Title.Text = "KOLINSKI Yield by z4trox v"  .. currentVersion
