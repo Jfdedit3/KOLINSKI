@@ -255,9 +255,9 @@ if os.date("*t", os.time()).month == 4 then
 	Title.Text = "Ligma Balls v"  .. currentVersion
 else
 	if string.find(currentVersion, '6') then
-		Title.Text = "KOLINSKI Yield by z4trox v" .. currentVersion
+		Title.Text = "KOLINSKI by z4trox v" .. currentVersion
 	else
-		Title.Text = "KOLINSKI Yield by z4trox v"  .. currentVersion
+		Title.Text = "KOLINSKI by z4trox v"  .. currentVersion
 	end
 end
 do
