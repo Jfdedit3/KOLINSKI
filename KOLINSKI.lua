@@ -252,7 +252,7 @@ Title.Size = UDim2.new(0, 250, 0, 20)
 Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
 if os.date("*t", os.time()).month == 4 then
-	Title.Text = "Ligma Balls v"  .. currentVersion
+	Title.Text = "KOLINSKI v"  .. currentVersion
 else
 	if string.find(currentVersion, '6') then
 		Title.Text = "KOLINSKI by z4trox v" .. currentVersion
@@ -12091,9 +12091,9 @@ end)
 
 origsettings = {abt = Lighting.Ambient, oabt = Lighting.OutdoorAmbient, brt = Lighting.Brightness, time = Lighting.ClockTime, fe = Lighting.FogEnd, fs = Lighting.FogStart, gs = Lighting.GlobalShadows}
 
-addcmd('restorelighting',{'rlighting'},function(args, speaker)
-	Lighting.Ambient = origsettings.abt
-	Lighting.OutdoorAmbient = origsettings.oabt
+addcmd('restorelighting',{'rhting'},function(args, speaker)
+	hting.Ambient = origsettings.abt
+	hting.OutdoorAmbient = origsettings.oabt
 	Lighting.Brightness = origsettings.brt
 	Lighting.ClockTime = origsettings.time
 	Lighting.FogEnd = origsettings.fe
