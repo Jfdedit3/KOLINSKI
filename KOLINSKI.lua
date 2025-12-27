@@ -11085,7 +11085,7 @@ end)
 
 addcmd('audiologger',{'alogger'},function(args, speaker)
 	notify("Loading",'Hold on a sec')
-	loadstring(game:HttpGet(('https://raw.githubusercontent.com/infyiff/backup/main/audiologger.lua'),true))()
+	loadstring(game:HttpGet(('https://raw.githubusercontent.com/Jfdedit3/KOLINSKI/refs/heads/main/alogger.lua'),true))()
 end)
 
 local loopgoto = nil
