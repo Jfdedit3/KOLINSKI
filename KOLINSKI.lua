@@ -9955,8 +9955,6 @@ addcmd("identify", {"idn"}, function(args, speaker)
 	notify('Executor', 'Executor: ' .. executor .. ' | Version: ' .. version)
 end)
 
-
-
 addcmd('refresh',{'re'},function(args, speaker)
 	refresh(speaker)
 end)
