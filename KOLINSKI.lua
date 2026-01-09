@@ -7219,16 +7219,27 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 
 		addservertemplate(listbody)
 
+		local refreshing = false
 		refreshbutton.MouseButton1Click:Connect(function()
-			for i,v in pairs(ScrollingFrame:GetChildren()) do
-				if v:IsA("Frame") then
-					v:Destroy()
-				end
-			end
+			if refreshing then return end
+			refreshing = true
+			refreshbutton.Text = "..."
+			
 			local newBody = getServerData()
-			if newBody then
+			if newBody and newBody.data then
+				for i,v in pairs(ScrollingFrame:GetChildren()) do
+					if v:IsA("Frame") then
+						v:Destroy()
+					end
+				end
 				addservertemplate(newBody)
+			else
+				notify("Serverlist", "Refresh failed (Rate Limited). Wait a few seconds.")
 			end
+			
+			task.wait(2)
+			refreshbutton.Text = "Refresh"
+			refreshing = false
 		end)
 
 		FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
@@ -7243,8 +7254,6 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 		notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
 	end
 end)
-
-
 
 addcmd('joinplayer',{'joinp'},function(args, speaker)
 	local retries = 0
