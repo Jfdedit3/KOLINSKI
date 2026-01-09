@@ -6999,7 +6999,6 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
 end)
 
 
-
 local canOpenServerIist = true
 addcmd('serverlist',{'slist'},function(args, speaker)
 	local request = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
