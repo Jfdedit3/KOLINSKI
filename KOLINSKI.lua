@@ -6954,27 +6954,51 @@ addcmd("autorejoin", {"autorj"}, function(args, speaker)
 end)
 
 addcmd("serverhop", {"shop"}, function(args, speaker)
-	if httprequest then
-		local servers = {}
-		local req = httprequest({Url = string.format("https://api.infiniteyieldreborn.xyz/servers?placeId=%d", PlaceId)})
-		local body = HttpService:JSONDecode(req.Body)
-		if body and body.data then
-			for i, v in next, body.data do
-				if type(v) == "table" and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= JobId then
-					table.insert(servers, 1, v.id)
-				end
-			end
-		end
+    local request = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+    
+    if not request then
+        return notify("Incompatible Exploit", "Your exploit does not support request functions.")
+    end
 
-		if #servers > 0 then
-			TeleportService:TeleportToPlaceInstance(PlaceId, servers[math.random(1, #servers)], Players.LocalPlayer)
-		else
-			return notify("Serverhop", "Couldn't find a server.")
-		end
-	else
-		notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
-	end
+    local function getServers(cursor)
+        local url = "https://games.roblox.com/v1/games/" .. PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+        if cursor then
+            url = url .. "&cursor=" .. cursor
+        end
+        
+        local success, response = pcall(function()
+            return request({Url = url, Method = "GET"})
+        end)
+
+        if success and response.StatusCode == 200 then
+            return HttpService:JSONDecode(response.Body)
+        end
+        return nil
+    end
+
+    local serverList = {}
+    local result = getServers()
+
+    if result and result.data then
+        for _, server in ipairs(result.data) do
+            if server.id ~= JobId and server.playing < server.maxPlayers then
+                table.insert(serverList, server)
+            end
+        end
+    end
+
+    if #serverList > 0 then
+        table.sort(serverList, function(a, b)
+            return a.playing < b.playing
+        end)
+
+        TeleportService:TeleportToPlaceInstance(PlaceId, serverList[1].id, Players.LocalPlayer)
+    else
+        notify("Serverhop", "No suitable servers found.")
+    end
 end)
+
+
 
 local canOpenServerIist = true
 addcmd('serverlist',{'slist'},function(args, speaker)
