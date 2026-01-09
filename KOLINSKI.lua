@@ -4874,7 +4874,7 @@ CMDs[#CMDs + 1] = {NAME = 'mantibang', DESC = 'Manually triggers the AntiBang se
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
 CMDs[#CMDs + 1] = {NAME = 'executor / exc', ALIAS = {'exc'}, DESC = 'Opens a script executor GUI'}
-CMDs[#CMDs + 1] = {NAME = 'madahub', ALIAS = {'mh'}, DESC = 'Executes Mada Hub script'}
+CMDs[#CMDs + 1] = {NAME = 'madahub / mh', ALIAS = {'mh'}, DESC = 'Executes Mada Hub script'}
 CMDs[#CMDs + 1] = {NAME = 'identify / idn', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
