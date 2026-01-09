@@ -9949,10 +9949,9 @@ addcmd('respawn',{},function(args, speaker)
 end)
 
 local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
-local version = game:GetService("Stats").Network.Version
 
 addcmd("identify", {"idn"}, function(args, speaker)
-	notify('Executor', 'Executor: ' .. executor .. ' | Version: ' .. version)
+	notify('Executor', 'Executor: ' .. executor)
 end)
 
 addcmd('refresh',{'re'},function(args, speaker)
