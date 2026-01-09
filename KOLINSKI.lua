@@ -7002,234 +7002,249 @@ end)
 
 local canOpenServerIist = true
 addcmd('serverlist',{'slist'},function(args, speaker)
-	if httprequest then
-		local listreq = httprequest({Url = string.format("https://api.infiniteyieldreborn.xyz/servers?placeId=%d", PlaceId)})
-		local listbody = HttpService:JSONDecode(listreq.Body)
-		if listbody and listbody.data then
-			if not canOpenServerIist then return end
-			canOpenServerIist = false
-			local FRAME = Instance.new("Frame")
-			local shadow = Instance.new("Frame")
-			local PopupText = Instance.new("TextLabel")
-			local Exit = Instance.new("TextButton")
-			local ExitImage = Instance.new("ImageLabel")
-			local background = Instance.new("Frame")
-			local refreshbutton = Instance.new("TextButton")
-			local ScrollingFrame = Instance.new("ScrollingFrame")
-			local UIListLayout = Instance.new("UIListLayout")
+	local request = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
+	
+	if request then
+		local function getServerData()
+			local success, result = pcall(function()
+				return request({Url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Desc&limit=100", Method = "GET"})
+			end)
+			
+			if success and result.StatusCode == 200 then
+				return HttpService:JSONDecode(result.Body)
+			end
+			return nil
+		end
 
-			FRAME.Name = randomString()
-			FRAME.Parent = PARENT
-			FRAME.Active = true
-			FRAME.BackgroundTransparency = 1
-			FRAME.Position = UDim2.new(0.5, -225, 0, -500)
-			FRAME.Size = UDim2.new(0, 450, 0, 20)
-			FRAME.ZIndex = 10
-			dragGUI(FRAME)
+		if not canOpenServerIist then return end
+		canOpenServerIist = false
 
-			shadow.Name = "shadow"
-			shadow.Parent = FRAME
-			shadow.BackgroundColor3 = currentShade2
-			shadow.BorderSizePixel = 0
-			shadow.Size = UDim2.new(0, 450, 0, 20)
-			shadow.ZIndex = 10
-			table.insert(shade2,shadow)
+		local listbody = getServerData()
 
-			PopupText.Name = "PopupText"
-			PopupText.Parent = shadow
-			PopupText.BackgroundTransparency = 1
-			PopupText.Size = UDim2.new(1, 0, 0.95, 0)
-			PopupText.ZIndex = 10
-			PopupText.Font = Enum.Font.SourceSans
-			PopupText.TextSize = 14
-			PopupText.Text = "Servers List"
-			PopupText.TextColor3 = currentText1
-			PopupText.TextWrapped = true
-			table.insert(text1,PopupText)
+		local FRAME = Instance.new("Frame")
+		local shadow = Instance.new("Frame")
+		local PopupText = Instance.new("TextLabel")
+		local Exit = Instance.new("TextButton")
+		local ExitImage = Instance.new("ImageLabel")
+		local background = Instance.new("Frame")
+		local refreshbutton = Instance.new("TextButton")
+		local ScrollingFrame = Instance.new("ScrollingFrame")
+		local UIListLayout = Instance.new("UIListLayout")
 
-			Exit.Name = "Exit"
-			Exit.Parent = shadow
-			Exit.BackgroundTransparency = 1
-			Exit.Position = UDim2.new(1, -20, 0, 0)
-			Exit.Size = UDim2.new(0, 20, 0, 20)
-			Exit.Text = ""
-			Exit.ZIndex = 10
+		FRAME.Name = randomString()
+		FRAME.Parent = PARENT
+		FRAME.Active = true
+		FRAME.BackgroundTransparency = 1
+		FRAME.Position = UDim2.new(0.5, -225, 0, -500)
+		FRAME.Size = UDim2.new(0, 450, 0, 20)
+		FRAME.ZIndex = 10
+		dragGUI(FRAME)
 
-			ExitImage.Parent = Exit
-			ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
-			ExitImage.BackgroundTransparency = 1
-			ExitImage.Position = UDim2.new(0, 5, 0, 5)
-			ExitImage.Size = UDim2.new(0, 10, 0, 10)
-			ExitImage.Image = "rbxassetid://5054663650"
-			ExitImage.ZIndex = 10
+		shadow.Name = "shadow"
+		shadow.Parent = FRAME
+		shadow.BackgroundColor3 = currentShade2
+		shadow.BorderSizePixel = 0
+		shadow.Size = UDim2.new(0, 450, 0, 20)
+		shadow.ZIndex = 10
+		table.insert(shade2,shadow)
 
-			refreshbutton.Name = "RefreshButton"
-			refreshbutton.Parent = shadow
-			refreshbutton.Text = "Refresh"
-			refreshbutton.BackgroundColor3 = currentShade3
-			refreshbutton.Position = UDim2.new(1, -80, 0.14, 0)
-			refreshbutton.Size = UDim2.new(0, 50, 0, 14)
-			refreshbutton.ZIndex = 10
-			refreshbutton.Font = Enum.Font.SourceSans
-			refreshbutton.TextSize = 14
-			refreshbutton.TextColor3 = currentText1
-			refreshbutton.TextWrapped = true
-			refreshbutton.BorderSizePixel = 0
+		PopupText.Name = "PopupText"
+		PopupText.Parent = shadow
+		PopupText.BackgroundTransparency = 1
+		PopupText.Size = UDim2.new(1, 0, 0.95, 0)
+		PopupText.ZIndex = 10
+		PopupText.Font = Enum.Font.SourceSans
+		PopupText.TextSize = 14
+		PopupText.Text = "Servers List"
+		PopupText.TextColor3 = currentText1
+		PopupText.TextWrapped = true
+		table.insert(text1,PopupText)
 
-			background.Name = "background"
-			background.Parent = FRAME
-			background.Active = true
-			background.BackgroundColor3 = currentShade1
-			background.BorderSizePixel = 0
-			background.Position = UDim2.new(0, 0, 1, 0)
-			background.Size = UDim2.new(0, 450, 0, 250)
-			background.ZIndex = 10
-			table.insert(shade1,background)
+		Exit.Name = "Exit"
+		Exit.Parent = shadow
+		Exit.BackgroundTransparency = 1
+		Exit.Position = UDim2.new(1, -20, 0, 0)
+		Exit.Size = UDim2.new(0, 20, 0, 20)
+		Exit.Text = ""
+		Exit.ZIndex = 10
 
-			ScrollingFrame.Name = "ScrollingFrame"
-			ScrollingFrame.Parent = background
-			ScrollingFrame.Active = true
-			ScrollingFrame.Size = UDim2.new(1,0,1,0)
-			ScrollingFrame.ZIndex = 10
-			ScrollingFrame.BackgroundTransparency = 1
-			ScrollingFrame.ScrollBarImageColor3 = Color3.new(255,255,255)
-			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+		ExitImage.Parent = Exit
+		ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
+		ExitImage.BackgroundTransparency = 1
+		ExitImage.Position = UDim2.new(0, 5, 0, 5)
+		ExitImage.Size = UDim2.new(0, 10, 0, 10)
+		ExitImage.Image = "rbxassetid://5054663650"
+		ExitImage.ZIndex = 10
 
-			UIListLayout.Parent = ScrollingFrame
-			UIListLayout.Name = "UIListLayout"
-			UIListLayout.Padding = UDim.new(0,5)
-			local function addservertemplate()
-				for i,v in ipairs(listbody.data) do
-					local frame1 = Instance.new("Frame")
-					local textlabel = Instance.new("TextLabel")
-					local textlabel2 = Instance.new("TextLabel")
-					local textlabel3 = Instance.new("TextLabel")
-					local textlabel4 = Instance.new("TextLabel")
-					local textlabel5 = Instance.new("TextLabel")
-					local textlabel6 = Instance.new("TextLabel")
-					local frame2 = Instance.new("Frame")
-					local UIGradient = Instance.new("UIGradient")
-					local joinbutton = Instance.new("TextButton")
+		refreshbutton.Name = "RefreshButton"
+		refreshbutton.Parent = shadow
+		refreshbutton.Text = "Refresh"
+		refreshbutton.BackgroundColor3 = currentShade3
+		refreshbutton.Position = UDim2.new(1, -80, 0.14, 0)
+		refreshbutton.Size = UDim2.new(0, 50, 0, 14)
+		refreshbutton.ZIndex = 10
+		refreshbutton.Font = Enum.Font.SourceSans
+		refreshbutton.TextSize = 14
+		refreshbutton.TextColor3 = currentText1
+		refreshbutton.TextWrapped = true
+		refreshbutton.BorderSizePixel = 0
 
-					frame1.Name = "Server"..tostring(i)
-					frame1.ZIndex = 10
-					frame1.BackgroundColor3 = currentShade3
-					frame1.BorderSizePixel = 0
-					frame1.Size = UDim2.new(0,438,0,125)
-					frame1.Parent = ScrollingFrame
+		background.Name = "background"
+		background.Parent = FRAME
+		background.Active = true
+		background.BackgroundColor3 = currentShade1
+		background.BorderSizePixel = 0
+		background.Position = UDim2.new(0, 0, 1, 0)
+		background.Size = UDim2.new(0, 450, 0, 250)
+		background.ZIndex = 10
+		table.insert(shade1,background)
 
-					textlabel.ZIndex = 10
-					textlabel.Size = UDim2.new(1,0,1,0)
-					textlabel.Text = "Server "..tostring(i)
-					textlabel.TextXAlignment = Enum.TextXAlignment.Right
-					textlabel.TextWrapped = true
-					textlabel.TextScaled = true
-					textlabel.TextColor3 = currentText1
-					textlabel.BackgroundTransparency = 1
-					textlabel.TextTransparency = 0.85
-					textlabel.Parent = frame1
+		ScrollingFrame.Name = "ScrollingFrame"
+		ScrollingFrame.Parent = background
+		ScrollingFrame.Active = true
+		ScrollingFrame.Size = UDim2.new(1,0,1,0)
+		ScrollingFrame.ZIndex = 10
+		ScrollingFrame.BackgroundTransparency = 1
+		ScrollingFrame.ScrollBarImageColor3 = Color3.new(255,255,255)
+		ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
-					frame2.ZIndex = 11
-					frame2.BorderSizePixel = 0
-					frame2.Size = UDim2.new(1,0,1,0)
-					frame2.Parent = frame1
+		UIListLayout.Parent = ScrollingFrame
+		UIListLayout.Name = "UIListLayout"
+		UIListLayout.Padding = UDim.new(0,5)
 
-					UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.312,0,0),NumberSequenceKeypoint.new(1,1,0)}
-					UIGradient.Rotation = 15
-					UIGradient.Color = ColorSequence.new(currentShade3)
-					UIGradient.Parent = frame2
+		local function addservertemplate(data)
+			if not data or not data.data then return end
+			for i,v in ipairs(data.data) do
+				local frame1 = Instance.new("Frame")
+				local textlabel = Instance.new("TextLabel")
+				local textlabel2 = Instance.new("TextLabel")
+				local textlabel3 = Instance.new("TextLabel")
+				local textlabel4 = Instance.new("TextLabel")
+				local textlabel5 = Instance.new("TextLabel")
+				local textlabel6 = Instance.new("TextLabel")
+				local frame2 = Instance.new("Frame")
+				local UIGradient = Instance.new("UIGradient")
+				local joinbutton = Instance.new("TextButton")
 
-					if v.id ~= game.JobId then
-						joinbutton.Name = "JoinButton"
-						joinbutton.ZIndex = 11
-						joinbutton.BorderSizePixel = 0
-						joinbutton.Size = UDim2.new(0,200,0,50)
-						joinbutton.Position = UDim2.new(0.475,0,0.32,0)
-						joinbutton.BackgroundColor3 = currentShade1
-						joinbutton.Text = "Join"
-						joinbutton.TextColor3 = currentText1
-						joinbutton.MouseButton1Click:Connect(function()
-							game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,v.id)
-						end)
-						joinbutton.Parent = frame2
-					end
+				frame1.Name = "Server"..tostring(i)
+				frame1.ZIndex = 10
+				frame1.BackgroundColor3 = currentShade3
+				frame1.BorderSizePixel = 0
+				frame1.Size = UDim2.new(0,438,0,125)
+				frame1.Parent = ScrollingFrame
 
-					textlabel2.ZIndex = 11
-					textlabel2.Size = UDim2.new(0,116,0,35)
-					if v.id ~= game.JobId then
-						textlabel2.Text = "Server "..tostring(i)
-					else
-						textlabel2.Text = "Server "..tostring(i).." (Joined)"
-					end
-					textlabel2.TextSize = 14
-					textlabel2.TextColor3 = currentText1
-					textlabel2.TextWrapped = true
-					textlabel2.BackgroundTransparency = 1
-					textlabel2.Parent = frame2
+				textlabel.ZIndex = 10
+				textlabel.Size = UDim2.new(1,0,1,0)
+				textlabel.Text = "Server "..tostring(i)
+				textlabel.TextXAlignment = Enum.TextXAlignment.Right
+				textlabel.TextWrapped = true
+				textlabel.TextScaled = true
+				textlabel.TextColor3 = currentText1
+				textlabel.BackgroundTransparency = 1
+				textlabel.TextTransparency = 0.85
+				textlabel.Parent = frame1
 
-					textlabel3.ZIndex = 11
-					textlabel3.Size = UDim2.new(0,100,0,35)
-					textlabel3.Position = UDim2.new(0,0,0.16,0)
-					textlabel3.Text = "Players: "..v.playing.."/"..v.maxPlayers
+				frame2.ZIndex = 11
+				frame2.BorderSizePixel = 0
+				frame2.Size = UDim2.new(1,0,1,0)
+				frame2.Parent = frame1
 
-					textlabel3.TextColor3 = currentText1
-					textlabel3.BackgroundTransparency = 1
-					textlabel3.Parent = frame2
+				UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.312,0,0),NumberSequenceKeypoint.new(1,1,0)}
+				UIGradient.Rotation = 15
+				UIGradient.Color = ColorSequence.new(currentShade3)
+				UIGradient.Parent = frame2
 
-					textlabel4.ZIndex = 11
-					textlabel4.Size = UDim2.new(0,100,0,35)
-					textlabel4.Position = UDim2.new(0,0,0.304,0)
-					textlabel4.Text = "Fps: "..v.fps
-					textlabel4.TextColor3 = currentText1
-					textlabel4.BackgroundTransparency = 1
-					textlabel4.Parent = frame2
+				if v.id ~= game.JobId then
+					joinbutton.Name = "JoinButton"
+					joinbutton.ZIndex = 11
+					joinbutton.BorderSizePixel = 0
+					joinbutton.Size = UDim2.new(0,200,0,50)
+					joinbutton.Position = UDim2.new(0.475,0,0.32,0)
+					joinbutton.BackgroundColor3 = currentShade1
+					joinbutton.Text = "Join"
+					joinbutton.TextColor3 = currentText1
+					joinbutton.MouseButton1Click:Connect(function()
+						game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId,v.id)
+					end)
+					joinbutton.Parent = frame2
+				end
 
-					textlabel5.ZIndex = 11
-					textlabel5.Size = UDim2.new(0,100,0,35)
-					textlabel5.Position = UDim2.new(0,0,0.44,0)
-					textlabel5.Text = "Ping: "..v.ping
-					textlabel5.TextColor3 = currentText1
-					textlabel5.BackgroundTransparency = 1
-					textlabel5.Parent = frame2
+				textlabel2.ZIndex = 11
+				textlabel2.Size = UDim2.new(0,116,0,35)
+				if v.id ~= game.JobId then
+					textlabel2.Text = "Server "..tostring(i)
+				else
+					textlabel2.Text = "Server "..tostring(i).." (Joined)"
+				end
+				textlabel2.TextSize = 14
+				textlabel2.TextColor3 = currentText1
+				textlabel2.TextWrapped = true
+				textlabel2.BackgroundTransparency = 1
+				textlabel2.Parent = frame2
 
-					textlabel6.ZIndex = 11
-					textlabel6.Size = UDim2.new(0,265,0,35)
-					textlabel6.Position = UDim2.new(0,0,0.72,0)
-					textlabel6.Text = "Jobid: "..v.id
-					textlabel6.TextWrapped = true
-					textlabel6.TextColor3 = currentText1
-					textlabel6.BackgroundTransparency = 1
-					textlabel6.Parent = frame2
+				textlabel3.ZIndex = 11
+				textlabel3.Size = UDim2.new(0,100,0,35)
+				textlabel3.Position = UDim2.new(0,0,0.16,0)
+				textlabel3.Text = "Players: "..v.playing.."/"..v.maxPlayers
+				textlabel3.TextColor3 = currentText1
+				textlabel3.BackgroundTransparency = 1
+				textlabel3.Parent = frame2
+
+				textlabel4.ZIndex = 11
+				textlabel4.Size = UDim2.new(0,100,0,35)
+				textlabel4.Position = UDim2.new(0,0,0.304,0)
+				textlabel4.Text = "Fps: "..(v.fps or "N/A")
+				textlabel4.TextColor3 = currentText1
+				textlabel4.BackgroundTransparency = 1
+				textlabel4.Parent = frame2
+
+				textlabel5.ZIndex = 11
+				textlabel5.Size = UDim2.new(0,100,0,35)
+				textlabel5.Position = UDim2.new(0,0,0.44,0)
+				textlabel5.Text = "Ping: "..(v.ping or "N/A")
+				textlabel5.TextColor3 = currentText1
+				textlabel5.BackgroundTransparency = 1
+				textlabel5.Parent = frame2
+
+				textlabel6.ZIndex = 11
+				textlabel6.Size = UDim2.new(0,265,0,35)
+				textlabel6.Position = UDim2.new(0,0,0.72,0)
+				textlabel6.Text = "Jobid: "..v.id
+				textlabel6.TextWrapped = true
+				textlabel6.TextColor3 = currentText1
+				textlabel6.BackgroundTransparency = 1
+				textlabel6.Parent = frame2
+			end
+		end
+
+		addservertemplate(listbody)
+
+		refreshbutton.MouseButton1Click:Connect(function()
+			for i,v in pairs(ScrollingFrame:GetChildren()) do
+				if v:IsA("Frame") then
+					v:Destroy()
 				end
 			end
-			addservertemplate()
-			refreshbutton.MouseButton1Click:Connect(function()
-				task.spawn(function()
-					for i,v in pairs(ScrollingFrame:GetChildren()) do
-						if v:IsA("Frame") then
-							v:Destroy()
-						end
-					end
-				end)
-				listreq = httprequest({Url = string.format("https://api.infiniteyieldreborn.xyz/servers?placeId=%d", PlaceId)})
-				listbody = HttpService:JSONDecode(listreq.Body)
-				task.wait(.5)
-				addservertemplate()
-			end)
+			local newBody = getServerData()
+			if newBody then
+				addservertemplate(newBody)
+			end
+		end)
 
-			FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
-			task.wait(0.5)
-			Exit.MouseButton1Click:Connect(function()
-				FRAME:TweenPosition(UDim2.new(0.5, -225, 0, -500), "InOut", "Quart", 0.5, true, nil) 
-				task.wait(0.6)
-				FRAME:Destroy()
-				canOpenServerIist = true
-			end)
-		end
+		FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
+		
+		Exit.MouseButton1Click:Connect(function()
+			FRAME:TweenPosition(UDim2.new(0.5, -225, 0, -500), "InOut", "Quart", 0.5, true, nil) 
+			task.wait(0.6)
+			FRAME:Destroy()
+			canOpenServerIist = true
+		end)
 	else
 		notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
 	end
 end)
+
+
 
 addcmd('joinplayer',{'joinp'},function(args, speaker)
 	local retries = 0
