@@ -3,7 +3,6 @@ if IY_LOADED and not _G.IY_DEBUG then
 	return
 end
 
-
 pcall(function() getgenv().IY_LOADED = true end)
 
 local cloneref = cloneref or function(o) return o end
@@ -19,10 +18,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '1'
-
--- GOTO line 11986 for 4nn1's Place stuff
--- For _Real: Add more useless stuff, Add more bang type commands.
+currentVersion = '1.1'
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
