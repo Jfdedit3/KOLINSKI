@@ -9949,12 +9949,13 @@ addcmd('respawn',{},function(args, speaker)
 end)
 
 local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
-local platform = (game:GetService("UserInputService").TouchEnabled and not game:GetService("UserInputService").KeyboardEnabled) and "Mobile" or "PC"
 local version = game:GetService("Stats").Network.Version
 
 addcmd("identify", {"idn"}, function(args, speaker)
-	notify('Executor', 'Executor: ' .. executor .. ' | Platform: ' .. platform .. ' | Version: ' .. version)
+	notify('Executor', 'Executor: ' .. executor .. ' | Version: ' .. version)
 end)
+
+
 
 addcmd('refresh',{'re'},function(args, speaker)
 	refresh(speaker)
