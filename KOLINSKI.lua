@@ -1,7 +1,8 @@
-if IY_LOADED and not _G.IY_DEBUG == true then
-	loadstring(game:HttpGet('https://raw.githubusercontent.com/fuckusfm/infiniteyield-reborn/master/uselessscriptthatexistsinthisrepoiwin'))()
+if IY_LOADED and not _G.IY_DEBUG then
+	-- error("KOLINSKI is already running!", 0)
 	return
 end
+
 
 pcall(function() getgenv().IY_LOADED = true end)
 
