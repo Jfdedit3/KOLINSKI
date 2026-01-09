@@ -9953,17 +9953,13 @@ addcmd('respawn',{},function(args, speaker)
 end)
 
 local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
+local platform = (game:GetService("UserInputService").TouchEnabled and not game:GetService("UserInputService").KeyboardEnabled) and "Mobile" or "PC"
+local version = game:GetService("Stats").Network.Version
 
 addcmd("identify", {"idn"}, function(args, speaker)
-	local capabilities = {}
-	if request or http_request or (syn and syn.request) then table.insert(capabilities, "Http") end
-	if firetouchinterest then table.insert(capabilities, "Touch") end
-	if getgenv then table.insert(capabilities, "GEnv") end
-	if setclipboard then table.insert(capabilities, "Clipboard") end
-	
-	local capString = #capabilities > 0 and " [" .. table.concat(capabilities, ", ") .. "]" or ""
-	notify('Executor', 'Current executor: ' .. executor .. capString)
+	notify('Executor', 'Executor: ' .. executor .. ' | Platform: ' .. platform .. ' | Version: ' .. version)
 end)
+
 
 addcmd('refresh',{'re'},function(args, speaker)
 	refresh(speaker)
