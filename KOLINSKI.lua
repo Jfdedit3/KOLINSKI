@@ -4916,6 +4916,7 @@ CMDs[#CMDs + 1] = {NAME = 'abanimcheck', DESC = 'Checks for any possible animati
 CMDs[#CMDs + 1] = {NAME = 'mantibang', DESC = 'Manually triggers the AntiBang sequence (Not subjectible to animcheck)'}
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
+CMDs[#CMDs + 1] = {NAME = 'identify', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attemps to patch some vulns'}
@@ -9988,6 +9989,41 @@ end)
 
 addcmd('respawn',{},function(args, speaker)
 	respawn(speaker)
+end)
+
+local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
+
+local function notify(title, text, delay)
+    local title = title .. " | " .. executor
+    if writefile and isfile and isfile("iy/main.lua") then
+        if typeof(text) == "string" then
+            task.spawn(function()
+                local frame = game:GetService("CoreGui"):FindFirstChild("IY_Notify")
+                if not frame then
+                    local sg = Instance.new("ScreenGui")
+                    sg.Name = "IY_Notify"
+                    sg.Parent = game:GetService("CoreGui")
+                    frame = Instance.new("Frame")
+                    frame.Name = "Main"
+                    frame.Parent = sg
+                end
+            end)
+        end
+    end
+    
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = delay or 5
+    })
+end
+
+addcmd("identify", {"idn"}, function(args, speaker)
+    notify("Executor", "Current executor: " .. executor)
+end)
+
+addcmd("checkexecutor", {"exec"}, function(args, speaker)
+    notify("Executor Info", "You are using: " .. executor)
 end)
 
 addcmd('refresh',{'re'},function(args, speaker)
