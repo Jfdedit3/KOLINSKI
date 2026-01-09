@@ -4874,7 +4874,6 @@ CMDs[#CMDs + 1] = {NAME = 'mantibang', DESC = 'Manually triggers the AntiBang se
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
 CMDs[#CMDs + 1] = {NAME = 'executor / exc', ALIAS = {'exc'}, DESC = 'Opens a script executor GUI'}
-CMDs[#CMDs + 1] = {NAME = 'rjre', ALIAS = {}, DESC = 'Rejoins the server and restores your position'}
 CMDs[#CMDs + 1] = {NAME = 'identify / idn', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
@@ -7377,16 +7376,6 @@ task.spawn(function()
 	end
 end)
 
-addcmd('rjre', {}, function(args, speaker)
-	savePosition()
-	notify('Rejoin', 'Saving position and reconnecting...')
-	task.wait(0.5)
-	if #game:GetService("Players"):GetPlayers() <= 1 then
-		game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
-	else
-		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game:GetService("Players").LocalPlayer)
-	end
-end)
 
 addcmd('joinplayer',{'joinp'},function(args, speaker)
 	local retries = 0
