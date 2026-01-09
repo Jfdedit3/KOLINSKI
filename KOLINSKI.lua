@@ -4874,8 +4874,6 @@ CMDs[#CMDs + 1] = {NAME = 'mantibang', DESC = 'Manually triggers the AntiBang se
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
 CMDs[#CMDs + 1] = {NAME = 'executor / exc', ALIAS = {'exc'}, DESC = 'Opens a script executor GUI'}
-CMDs[#CMDs + 1] = {NAME = 'mlaimbot', ALIAS = {'mla'}, DESC = 'Smooth Aimbot with Team Check'}
-CMDs[#CMDs + 1] = {NAME = 'aimteam', ALIAS = {'at'}, DESC = 'Toggle Team Check for Aimbot'}
 CMDs[#CMDs + 1] = {NAME = 'identify / idn', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
@@ -7347,92 +7345,6 @@ addcmd('executor',{'exc'},function(args, speaker)
 		FRAME:Destroy()
 		canOpenExecutor = true
 	end)
-end)
-
-local function savePosition()
-	local p = game:GetService("Players").LocalPlayer
-	if p and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-		local pos = p.Character.HumanoidRootPart.CFrame
-		if writefile then
-			writefile("iy_rjre_pos.txt", tostring(pos))
-		end
-	end
-end
-
-task.spawn(function()
-	if isfile and isfile("iy_rjre_pos.txt") then
-		local p = game:GetService("Players").LocalPlayer
-		local char = p.Character or p.CharacterAdded:Wait()
-		local hrp = char:WaitForChild("HumanoidRootPart")
-		local data = readfile("iy_rjre_pos.txt")
-		delfile("iy_rjre_pos.txt")
-		
-		local components = {}
-		for val in data:gmatch("[^, ]+") do
-			table.insert(components, tonumber(val))
-		end
-		
-		task.wait(1)
-		hrp.CFrame = CFrame.new(unpack(components))
-		notify('Rejoin', 'Position restored')
-	end
-end)
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-local Camera = workspace.CurrentCamera
-
-local aimbotEnabled = false
-local teamCheck = true
-local target = nil
-
-local function getClosestPlayer()
-	local closestPlayer = nil
-	local shortestDistance = math.huge
-
-	for _, v in pairs(Players:GetPlayers()) do
-		if v ~= LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
-			if teamCheck and v.Team == LocalPlayer.Team then continue end
-			
-			local pos, onScreen = Camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
-			if onScreen then
-				local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
-				if magnitude < shortestDistance then
-					closestPlayer = v
-					shortestDistance = magnitude
-				end
-			end
-		end
-	end
-	return closestPlayer
-end
-
-addcmd('mlaimbot', {'mla'}, function(args, speaker)
-	aimbotEnabled = not aimbotEnabled
-	notify('Aimbot', 'Aimbot: ' .. (aimbotEnabled and 'Enabled' or 'Disabled'))
-	
-	if aimbotEnabled then
-		task.spawn(function()
-			while aimbotEnabled do
-				local delta = RunService.RenderStepped:Wait()
-				target = getClosestPlayer()
-				if target and target.Character and target.Character:FindFirstChild("Head") then
-					local headPos = Camera:WorldToViewportPoint(target.Character.Head.Position)
-					local mousePos = Vector2.new(Mouse.X, Mouse.Y)
-					local targetPos = Vector2.new(headPos.X, headPos.Y)
-					local moveVec = (targetPos - mousePos) * 0.2
-					mousemoverel(moveVec.X, moveVec.Y)
-				end
-			end
-		end)
-	end
-end)
-
-addcmd('aimteam', {'at'}, function(args, speaker)
-	teamCheck = not teamCheck
-	notify('Aimbot', 'Team Check: ' .. (teamCheck and 'Enabled' or 'Disabled'))
 end)
 
 addcmd('joinplayer',{'joinp'},function(args, speaker)
