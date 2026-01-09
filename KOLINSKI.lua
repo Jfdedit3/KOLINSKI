@@ -7292,7 +7292,7 @@ addcmd('executor',{'exc'},function(args, speaker)
 	TextBox.ClearTextOnFocus = false
 	TextBox.Font = Enum.Font.Code
 	TextBox.MultiLine = true
-	TextBox.PlaceholderText = "-- Saisissez votre code ici..."
+	TextBox.PlaceholderText = "-- Type your script here..."
 	TextBox.Text = ""
 	TextBox.TextColor3 = currentText1
 	TextBox.TextSize = 14
