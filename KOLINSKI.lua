@@ -4873,6 +4873,7 @@ CMDs[#CMDs + 1] = {NAME = 'abanimcheck', DESC = 'Checks for any possible animati
 CMDs[#CMDs + 1] = {NAME = 'mantibang', DESC = 'Manually triggers the AntiBang sequence (Not subjectible to animcheck)'}
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DESC = 'What exploits are online!?'}
+CMDs[#CMDs + 1] = {NAME = 'executor', ALIAS = {'exc'}, DESC = 'Opens a script executor GUI'}
 CMDs[#CMDs + 1] = {NAME = 'identify / idn', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
@@ -7210,6 +7211,140 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 	else
 		notify("Incompatible Exploit", "Your exploit does not support this command (missing request)")
 	end
+end)
+
+local canOpenExecutor = true
+addcmd('executor',{'exc'},function(args, speaker)
+	if not canOpenExecutor then return end
+	canOpenExecutor = false
+
+	local FRAME = Instance.new("Frame")
+	local shadow = Instance.new("Frame")
+	local PopupText = Instance.new("TextLabel")
+	local Exit = Instance.new("TextButton")
+	local ExitImage = Instance.new("ImageLabel")
+	local background = Instance.new("Frame")
+	local executeButton = Instance.new("TextButton")
+	local clearButton = Instance.new("TextButton")
+	local TextBox = Instance.new("TextBox")
+
+	FRAME.Name = randomString()
+	FRAME.Parent = PARENT
+	FRAME.Active = true
+	FRAME.BackgroundTransparency = 1
+	FRAME.Position = UDim2.new(0.5, -225, 0, -500)
+	FRAME.Size = UDim2.new(0, 450, 0, 20)
+	FRAME.ZIndex = 10
+	dragGUI(FRAME)
+
+	shadow.Name = "shadow"
+	shadow.Parent = FRAME
+	shadow.BackgroundColor3 = currentShade2
+	shadow.BorderSizePixel = 0
+	shadow.Size = UDim2.new(0, 450, 0, 20)
+	shadow.ZIndex = 10
+	table.insert(shade2,shadow)
+
+	PopupText.Name = "PopupText"
+	PopupText.Parent = shadow
+	PopupText.BackgroundTransparency = 1
+	PopupText.Size = UDim2.new(1, 0, 0.95, 0)
+	PopupText.ZIndex = 10
+	PopupText.Font = Enum.Font.SourceSans
+	PopupText.TextSize = 14
+	PopupText.Text = "Executor"
+	PopupText.TextColor3 = currentText1
+	PopupText.TextWrapped = true
+	table.insert(text1,PopupText)
+
+	Exit.Name = "Exit"
+	Exit.Parent = shadow
+	Exit.BackgroundTransparency = 1
+	Exit.Position = UDim2.new(1, -20, 0, 0)
+	Exit.Size = UDim2.new(0, 20, 0, 20)
+	Exit.Text = ""
+	Exit.ZIndex = 10
+
+	ExitImage.Parent = Exit
+	ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
+	ExitImage.BackgroundTransparency = 1
+	ExitImage.Position = UDim2.new(0, 5, 0, 5)
+	ExitImage.Size = UDim2.new(0, 10, 0, 10)
+	ExitImage.Image = "rbxassetid://5054663650"
+	ExitImage.ZIndex = 10
+
+	background.Name = "background"
+	background.Parent = FRAME
+	background.Active = true
+	background.BackgroundColor3 = currentShade1
+	background.BorderSizePixel = 0
+	background.Position = UDim2.new(0, 0, 1, 0)
+	background.Size = UDim2.new(0, 450, 0, 250)
+	background.ZIndex = 10
+	table.insert(shade1,background)
+
+	TextBox.Name = "Source"
+	TextBox.Parent = background
+	TextBox.BackgroundColor3 = currentShade3
+	TextBox.BorderSizePixel = 0
+	TextBox.Position = UDim2.new(0.02, 0, 0.05, 0)
+	TextBox.Size = UDim2.new(0.96, 0, 0.75, 0)
+	TextBox.ClearTextOnFocus = false
+	TextBox.Font = Enum.Font.Code
+	TextBox.MultiLine = true
+	TextBox.PlaceholderText = "-- Saisissez votre code ici..."
+	TextBox.Text = ""
+	TextBox.TextColor3 = currentText1
+	TextBox.TextSize = 14
+	TextBox.TextXAlignment = Enum.TextXAlignment.Left
+	TextBox.TextYAlignment = Enum.TextYAlignment.Top
+	TextBox.ZIndex = 10
+
+	executeButton.Name = "Execute"
+	executeButton.Parent = background
+	executeButton.BackgroundColor3 = currentShade3
+	executeButton.BorderSizePixel = 0
+	executeButton.Position = UDim2.new(0.02, 0, 0.85, 0)
+	executeButton.Size = UDim2.new(0, 200, 0, 30)
+	executeButton.Font = Enum.Font.SourceSans
+	executeButton.Text = "Execute"
+	executeButton.TextColor3 = currentText1
+	executeButton.TextSize = 14
+	executeButton.ZIndex = 10
+
+	clearButton.Name = "Clear"
+	clearButton.Parent = background
+	clearButton.BackgroundColor3 = currentShade3
+	clearButton.BorderSizePixel = 0
+	clearButton.Position = UDim2.new(0.53, 0, 0.85, 0)
+	clearButton.Size = UDim2.new(0, 200, 0, 30)
+	clearButton.Font = Enum.Font.SourceSans
+	clearButton.Text = "Clear"
+	clearButton.TextColor3 = currentText1
+	clearButton.TextSize = 14
+	clearButton.ZIndex = 10
+
+	executeButton.MouseButton1Click:Connect(function()
+		local success, err = pcall(function()
+			loadstring(TextBox.Text)()
+		end)
+		if not success then
+			notify('Executor Error', err)
+		end
+	end)
+
+	clearButton.MouseButton1Click:Connect(function()
+		TextBox.Text = ""
+	end)
+
+	FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
+
+	Exit.MouseButton1Click:Connect(function()
+		FRAME:TweenPosition(UDim2.new(0.5, -225, 0, -500), "InOut", "Quart", 0.5, true, nil) 
+		task.wait(0.6)
+		FRAME:Destroy()
+		canOpenExecutor = true
+	end)
 end)
 
 addcmd('joinplayer',{'joinp'},function(args, speaker)
