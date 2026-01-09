@@ -9948,11 +9948,13 @@ addcmd('respawn',{},function(args, speaker)
 	respawn(speaker)
 end)
 
-local executor = (identifyexecutor and identifyexecutor()) or "Unknown"
+local executor = (identifyexecutor and identifyexecutor()) or (getexecutorname and getexecutorname()) or "Unknown"
 
 addcmd("identify", {"idn"}, function(args, speaker)
 	notify('Executor', 'Executor: ' .. executor)
 end)
+
+
 
 addcmd('refresh',{'re'},function(args, speaker)
 	refresh(speaker)
