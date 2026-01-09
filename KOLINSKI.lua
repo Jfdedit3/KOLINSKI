@@ -9997,10 +9997,6 @@ addcmd("identify", {"idn"}, function(args, speaker)
 	notify('Executor', 'Current executor: ' .. executor)
 end)
 
-addcmd("checkexecutor", {"exec"}, function(args, speaker)
-    notify("Executor Info", "You are using: " .. executor)
-end)
-
 addcmd('refresh',{'re'},function(args, speaker)
 	refresh(speaker)
 end)
