@@ -9986,9 +9986,6 @@ addcmd('unfreezeanims',{},function(args, speaker)
 	end
 end)
 
-
-
-
 addcmd('respawn',{},function(args, speaker)
 	respawn(speaker)
 end)
