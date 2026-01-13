@@ -6553,168 +6553,330 @@ addcmd('toggleunkeepiy', {}, function(args, speaker)
 end)
 
 local canOpenServerinfo = true
-addcmd('serverinfo', {'info', 'sinfo'}, function(args, speaker)
+addcmd('serverinfo',{'info','sinfo'},function(args, speaker)
 	if not canOpenServerinfo then return end
 	canOpenServerinfo = false
 	task.spawn(function()
 		local FRAME = Instance.new("Frame")
 		local shadow = Instance.new("Frame")
-		local MainCorner = Instance.new("UICorner")
 		local PopupText = Instance.new("TextLabel")
 		local Exit = Instance.new("TextButton")
+		local ExitImage = Instance.new("ImageLabel")
 		local background = Instance.new("Frame")
-		local BGCorner = Instance.new("UICorner")
-		local UIListLayout = Instance.new("UIListLayout")
-		local UIPadding = Instance.new("UIPadding")
+		local TextLabel = Instance.new("TextLabel")
+		local TextLabel2 = Instance.new("TextLabel")
+		local TextLabel3 = Instance.new("TextLabel")
+		local Time = Instance.new("TextLabel")
+		local appearance = Instance.new("TextLabel")
+		local maxplayers = Instance.new("TextLabel")
+		local name = Instance.new("TextLabel")
+		local placeid = Instance.new("TextLabel")
+		local playerid = Instance.new("TextLabel")
+		local players = Instance.new("TextLabel")
+		local CopyApp = Instance.new("TextButton")
+		local CopyPlrID = Instance.new("TextButton")
+		local CopyPlcID = Instance.new("TextButton")
+		local CopyPlcName = Instance.new("TextButton")
 
 		FRAME.Name = randomString()
 		FRAME.Parent = PARENT
 		FRAME.Active = true
 		FRAME.BackgroundTransparency = 1
 		FRAME.Position = UDim2.new(0.5, -130, 0, -500)
-		FRAME.Size = UDim2.new(0, 260, 0, 300)
+		FRAME.Size = UDim2.new(0, 250, 0, 20)
 		FRAME.ZIndex = 10
 		dragGUI(FRAME)
 
-		shadow.Name = "TopBar"
+		shadow.Name = "shadow"
 		shadow.Parent = FRAME
 		shadow.BackgroundColor3 = currentShade2
 		shadow.BorderSizePixel = 0
-		shadow.Size = UDim2.new(1, 0, 0, 30)
-		shadow.ZIndex = 11
-		table.insert(shade2, shadow)
-
-		MainCorner.CornerRadius = UDim.new(0, 6)
-		MainCorner.Parent = shadow
+		shadow.Size = UDim2.new(0, 250, 0, 20)
+		shadow.ZIndex = 10
+		table.insert(shade2,shadow)
 
 		PopupText.Name = "PopupText"
 		PopupText.Parent = shadow
 		PopupText.BackgroundTransparency = 1
-		PopupText.Position = UDim2.new(0, 10, 0, 0)
-		PopupText.Size = UDim2.new(1, -40, 1, 0)
-		PopupText.ZIndex = 12
-		PopupText.Font = Enum.Font.GothamBold
+		PopupText.Size = UDim2.new(1, 0, 0.95, 0)
+		PopupText.ZIndex = 10
+		PopupText.Font = Enum.Font.SourceSans
 		PopupText.TextSize = 14
-		PopupText.Text = "Server Information"
+		PopupText.Text = "Server"
 		PopupText.TextColor3 = currentText1
-		PopupText.TextXAlignment = Enum.TextXAlignment.Left
-		table.insert(text1, PopupText)
+		PopupText.TextWrapped = true
+		table.insert(text1,PopupText)
 
 		Exit.Name = "Exit"
 		Exit.Parent = shadow
 		Exit.BackgroundTransparency = 1
-		Exit.Position = UDim2.new(1, -30, 0, 0)
-		Exit.Size = UDim2.new(0, 30, 0, 30)
-		Exit.Text = "X"
-		Exit.Font = Enum.Font.GothamBold
-		Exit.TextColor3 = Color3.fromRGB(255, 100, 100)
-		Exit.TextSize = 16
-		Exit.ZIndex = 12
+		Exit.Position = UDim2.new(1, -20, 0, 0)
+		Exit.Size = UDim2.new(0, 20, 0, 20)
+		Exit.Text = ""
+		Exit.ZIndex = 10
 
-		background.Name = "Content"
+		ExitImage.Parent = Exit
+		ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
+		ExitImage.BackgroundTransparency = 1
+		ExitImage.Position = UDim2.new(0, 5, 0, 5)
+		ExitImage.Size = UDim2.new(0, 10, 0, 10)
+		ExitImage.Image = "rbxassetid://5054663650"
+		ExitImage.ZIndex = 10
+
+		background.Name = "background"
 		background.Parent = FRAME
+		background.Active = true
 		background.BackgroundColor3 = currentShade1
 		background.BorderSizePixel = 0
-		background.Position = UDim2.new(0, 0, 0, 30)
-		background.Size = UDim2.new(1, 0, 1, -30)
+		background.Position = UDim2.new(0, 0, 1, 0)
+		background.Size = UDim2.new(0, 250, 0, 250)
 		background.ZIndex = 10
-		table.insert(shade1, background)
+		table.insert(shade1,background)
 
-		BGCorner.CornerRadius = UDim.new(0, 6)
-		BGCorner.Parent = background
+		TextLabel.Name = "Text Label"
+		TextLabel.Parent = background
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.BorderSizePixel = 0
+		TextLabel.Position = UDim2.new(0, 5, 0, 80)
+		TextLabel.Size = UDim2.new(0, 100, 0, 20)
+		TextLabel.ZIndex = 10
+		TextLabel.Font = Enum.Font.SourceSansLight
+		TextLabel.TextSize = 20
+		TextLabel.Text = "Run Time:"
+		TextLabel.TextColor3 = currentText1
+		TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,TextLabel)
 
-		UIListLayout.Parent = background
-		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-		UIListLayout.Padding = UDim.new(0, 5)
+		TextLabel2.Name = "Text Label2"
+		TextLabel2.Parent = background
+		TextLabel2.BackgroundTransparency = 1
+		TextLabel2.BorderSizePixel = 0
+		TextLabel2.Position = UDim2.new(0, 5, 0, 130)
+		TextLabel2.Size = UDim2.new(0, 100, 0, 20)
+		TextLabel2.ZIndex = 10
+		TextLabel2.Font = Enum.Font.SourceSansLight
+		TextLabel2.TextSize = 20
+		TextLabel2.Text = "Statistics:"
+		TextLabel2.TextColor3 = currentText1
+		TextLabel2.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,TextLabel2)
 
-		UIPadding.Parent = background
-		UIPadding.PaddingLeft = UDim.new(0, 10)
-		UIPadding.PaddingRight = UDim.new(0, 10)
-		UIPadding.PaddingTop = UDim.new(0, 10)
+		TextLabel3.Name = "Text Label3"
+		TextLabel3.Parent = background
+		TextLabel3.BackgroundTransparency = 1
+		TextLabel3.BorderSizePixel = 0
+		TextLabel3.Position = UDim2.new(0, 5, 0, 10)
+		TextLabel3.Size = UDim2.new(0, 100, 0, 20)
+		TextLabel3.ZIndex = 10
+		TextLabel3.Font = Enum.Font.SourceSansLight
+		TextLabel3.TextSize = 20
+		TextLabel3.Text = "Local Player:"
+		TextLabel3.TextColor3 = currentText1
+		TextLabel3.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,TextLabel3)
 
-		local function createInfoLine(labelTitle, defaultValue, layoutOrder, copyValue)
-			local container = Instance.new("Frame")
-			container.BackgroundTransparency = 1
-			container.Size = UDim2.new(1, 0, 0, 35)
-			container.LayoutOrder = layoutOrder
-			container.Parent = background
+		Time.Name = "Time"
+		Time.Parent = background
+		Time.BackgroundTransparency = 1
+		Time.BorderSizePixel = 0
+		Time.Position = UDim2.new(0, 5, 0, 105)
+		Time.Size = UDim2.new(0, 100, 0, 20)
+		Time.ZIndex = 10
+		Time.Font = Enum.Font.SourceSans
+		Time.FontSize = Enum.FontSize.Size14
+		Time.Text = "LOADING"
+		Time.TextColor3 = currentText1
+		Time.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,Time)
 
-			local title = Instance.new("TextLabel")
-			title.BackgroundTransparency = 1
-			title.Size = UDim2.new(1, -45, 0, 15)
-			title.Font = Enum.Font.Gotham
-			title.TextSize = 11
-			title.Text = labelTitle
-			title.TextColor3 = Color3.fromRGB(180, 180, 180)
-			title.TextXAlignment = Enum.TextXAlignment.Left
-			title.Parent = container
+		appearance.Name = "appearance"
+		appearance.Parent = background
+		appearance.BackgroundTransparency = 1
+		appearance.BorderSizePixel = 0
+		appearance.Position = UDim2.new(0, 5, 0, 55)
+		appearance.Size = UDim2.new(0, 100, 0, 20)
+		appearance.ZIndex = 10
+		appearance.Font = Enum.Font.SourceSans
+		appearance.FontSize = Enum.FontSize.Size14
+		appearance.Text = "Appearance: LOADING"
+		appearance.TextColor3 = currentText1
+		appearance.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,appearance)
 
-			local val = Instance.new("TextLabel")
-			val.BackgroundTransparency = 1
-			val.Position = UDim2.new(0, 0, 0, 15)
-			val.Size = UDim2.new(1, -45, 0, 20)
-			val.Font = Enum.Font.GothamBold
-			val.TextSize = 13
-			val.Text = defaultValue
-			val.TextColor3 = currentText1
-			val.TextXAlignment = Enum.TextXAlignment.Left
-			val.TextTruncate = Enum.TextTruncate.AtEnd
-			val.Parent = container
+		maxplayers.Name = "maxplayers"
+		maxplayers.Parent = background
+		maxplayers.BackgroundTransparency = 1
+		maxplayers.BorderSizePixel = 0
+		maxplayers.Position = UDim2.new(0, 5, 0, 175)
+		maxplayers.Size = UDim2.new(0, 100, 0, 20)
+		maxplayers.ZIndex = 10
+		maxplayers.Font = Enum.Font.SourceSans
+		maxplayers.FontSize = Enum.FontSize.Size14
+		maxplayers.Text = "LOADING"
+		maxplayers.TextColor3 = currentText1
+		maxplayers.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,maxplayers)
 
-			local copy = Instance.new("TextButton")
-			copy.Size = UDim2.new(0, 40, 0, 22)
-			copy.Position = UDim2.new(1, -40, 0, 6)
-			copy.BackgroundColor3 = currentShade2
-			copy.Font = Enum.Font.Gotham
-			copy.Text = "Copy"
-			copy.TextSize = 10
-			copy.TextColor3 = currentText1
-			copy.Parent = container
-			
-			local btnCorner = Instance.new("UICorner")
-			btnCorner.CornerRadius = UDim.new(0, 4)
-			btnCorner.Parent = copy
+		name.Name = "name"
+		name.Parent = background
+		name.BackgroundTransparency = 1
+		name.BorderSizePixel = 0
+		name.Position = UDim2.new(0, 5, 0, 215)
+		name.Size = UDim2.new(0, 240, 0, 30)
+		name.ZIndex = 10
+		name.Font = Enum.Font.SourceSans
+		name.FontSize = Enum.FontSize.Size14
+		name.Text = "Place Name: LOADING"
+		name.TextColor3 = currentText1
+		name.TextWrapped = true
+		name.TextXAlignment = Enum.TextXAlignment.Left
+		name.TextYAlignment = Enum.TextYAlignment.Top
+		table.insert(text1,name)
 
-			copy.MouseButton1Click:Connect(function()
-				toClipboard(tostring(copyValue or val.Text))
-				copy.Text = "Done"
-				task.delay(1, function() copy.Text = "Copy" end)
-			end)
+		placeid.Name = "placeid"
+		placeid.Parent = background
+		placeid.BackgroundTransparency = 1
+		placeid.BorderSizePixel = 0
+		placeid.Position = UDim2.new(0, 5, 0, 195)
+		placeid.Size = UDim2.new(0, 100, 0, 20)
+		placeid.ZIndex = 10
+		placeid.Font = Enum.Font.SourceSans
+		placeid.FontSize = Enum.FontSize.Size14
+		placeid.Text = "Place ID: LOADING"
+		placeid.TextColor3 = currentText1
+		placeid.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,placeid)
 
-			return val
-		end
+		playerid.Name = "playerid"
+		playerid.Parent = background
+		playerid.BackgroundTransparency = 1
+		playerid.BorderSizePixel = 0
+		playerid.Position = UDim2.new(0, 5, 0, 35)
+		playerid.Size = UDim2.new(0, 100, 0, 20)
+		playerid.ZIndex = 10
+		playerid.Font = Enum.Font.SourceSans
+		playerid.FontSize = Enum.FontSize.Size14
+		playerid.Text = "Player ID: LOADING"
+		playerid.TextColor3 = currentText1
+		playerid.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,playerid)
 
-		local LPlayerID = createInfoLine("Local Player ID", tostring(speaker.UserId), 1, speaker.UserId)
-		local LAppID = createInfoLine("Appearance ID", tostring(speaker.CharacterAppearanceId), 2, speaker.CharacterAppearanceId)
-		local SRunTime = createInfoLine("Server Run Time", "0s", 3)
-		local SPlayers = createInfoLine("Players", "0/0", 4)
-		local SPlaceID = createInfoLine("Place ID", tostring(game.PlaceId), 5, game.PlaceId)
-		local SPlaceName = createInfoLine("Place Name", "Loading...", 6)
+		players.Name = "players"
+		players.Parent = background
+		players.BackgroundTransparency = 1
+		players.BorderSizePixel = 0
+		players.Position = UDim2.new(0, 5, 0, 155)
+		players.Size = UDim2.new(0, 100, 0, 20)
+		players.ZIndex = 10
+		players.Font = Enum.Font.SourceSans
+		players.FontSize = Enum.FontSize.Size14
+		players.Text = "LOADING"
+		players.TextColor3 = currentText1
+		players.TextXAlignment = Enum.TextXAlignment.Left
+		table.insert(text1,players)
 
-		FRAME:TweenPosition(UDim2.new(0.5, -130, 0.5, -150), "Out", "Quart", 0.5, true)
+		CopyApp.Name = "CopyApp"
+		CopyApp.Parent = background
+		CopyApp.BackgroundColor3 = currentShade2
+		CopyApp.BorderSizePixel = 0
+		CopyApp.Position = UDim2.new(0, 210, 0, 55)
+		CopyApp.Size = UDim2.new(0, 35, 0, 20)
+		CopyApp.Font = Enum.Font.SourceSans
+		CopyApp.TextSize = 14
+		CopyApp.Text = "Copy"
+		CopyApp.TextColor3 = currentText1
+		CopyApp.ZIndex = 10
+		table.insert(shade2,CopyApp)
+		table.insert(text1,CopyApp)
 
+		CopyPlrID.Name = "CopyPlrID"
+		CopyPlrID.Parent = background
+		CopyPlrID.BackgroundColor3 = currentShade2
+		CopyPlrID.BorderSizePixel = 0
+		CopyPlrID.Position = UDim2.new(0, 210, 0, 35)
+		CopyPlrID.Size = UDim2.new(0, 35, 0, 20)
+		CopyPlrID.Font = Enum.Font.SourceSans
+		CopyPlrID.TextSize = 14
+		CopyPlrID.Text = "Copy"
+		CopyPlrID.TextColor3 = currentText1
+		CopyPlrID.ZIndex = 10
+		table.insert(shade2,CopyPlrID)
+		table.insert(text1,CopyPlrID)
+
+		CopyPlcID.Name = "CopyPlcID"
+		CopyPlcID.Parent = background
+		CopyPlcID.BackgroundColor3 = currentShade2
+		CopyPlcID.BorderSizePixel = 0
+		CopyPlcID.Position = UDim2.new(0, 210, 0, 195)
+		CopyPlcID.Size = UDim2.new(0, 35, 0, 20)
+		CopyPlcID.Font = Enum.Font.SourceSans
+		CopyPlcID.TextSize = 14
+		CopyPlcID.Text = "Copy"
+		CopyPlcID.TextColor3 = currentText1
+		CopyPlcID.ZIndex = 10
+		table.insert(shade2,CopyPlcID)
+		table.insert(text1,CopyPlcID)
+
+		CopyPlcName.Name = "CopyPlcName"
+		CopyPlcName.Parent = background
+		CopyPlcName.BackgroundColor3 = currentShade2
+		CopyPlcName.BorderSizePixel = 0
+		CopyPlcName.Position = UDim2.new(0, 210, 0, 215)
+		CopyPlcName.Size = UDim2.new(0, 35, 0, 20)
+		CopyPlcName.Font = Enum.Font.SourceSans
+		CopyPlcName.TextSize = 14
+		CopyPlcName.Text = "Copy"
+		CopyPlcName.TextColor3 = currentText1
+		CopyPlcName.ZIndex = 10
+		table.insert(shade2,CopyPlcName)
+		table.insert(text1,CopyPlcName)
+
+		local SINFOGUI = background
+		FRAME:TweenPosition(UDim2.new(0.5, -130, 0, 100), "InOut", "Quart", 0.5, true, nil) 
+		task.wait(0.5)
 		Exit.MouseButton1Click:Connect(function()
-			FRAME:TweenPosition(UDim2.new(0.5, -130, 0, -500), "In", "Back", 0.5, true)
+			FRAME:TweenPosition(UDim2.new(0.5, -130, 0, -500), "InOut", "Quart", 0.5, true, nil) 
 			task.wait(0.6)
 			FRAME:Destroy()
 			canOpenServerinfo = true
 		end)
+		local Asset = MarketplaceService:GetProductInfo(PlaceId)
+		SINFOGUI.name.Text = "Place Name: " .. Asset.Name
+		SINFOGUI.playerid.Text = "Player ID: " ..speaker.UserId
+		SINFOGUI.maxplayers.Text = Players.MaxPlayers.. " Players Max"
+		SINFOGUI.placeid.Text = "Place ID: " ..PlaceId
 
-		local Asset = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
-		SPlaceName.Text = Asset.Name
+		CopyApp.MouseButton1Click:Connect(function()
+			toClipboard(speaker.CharacterAppearanceId)
+		end)
+		CopyPlrID.MouseButton1Click:Connect(function()
+			toClipboard(speaker.UserId)
+		end)
+		CopyPlcID.MouseButton1Click:Connect(function()
+			toClipboard(PlaceId)
+		end)
+		CopyPlcName.MouseButton1Click:Connect(function()
+			toClipboard(Asset.Name)
+		end)
 
 		repeat
-			local plrs = game:GetService("Players"):GetPlayers()
-			SPlayers.Text = #plrs .. " / " .. game:GetService("Players").MaxPlayers
-			
-			local totalSeconds = math.floor(workspace.DistributedGameTime)
-			local hours = math.floor(totalSeconds / 3600)
-			local minutes = math.floor((totalSeconds % 3600) / 60)
-			local seconds = totalSeconds % 60
-			SRunTime.Text = string.format("%dh %dm %ds", hours, minutes, seconds)
-			
+			players = Players:GetPlayers()
+			SINFOGUI.players.Text = #players.. " Player(s)"
+			SINFOGUI.appearance.Text = "Appearance: " ..speaker.CharacterAppearanceId
+			local seconds = math.floor(workspace.DistributedGameTime)
+			local minutes = math.floor(workspace.DistributedGameTime / 60)
+			local hours = math.floor(workspace.DistributedGameTime / 60 / 60)
+			seconds -= minutes * 60
+			minutes -= hours * 60
+			if hours < 1 then if minutes < 1 then
+					SINFOGUI.Time.Text = seconds .. " Second(s)" else
+					SINFOGUI.Time.Text = minutes .. " Minute(s), " .. seconds .. " Second(s)"
+				end
+			else
+				SINFOGUI.Time.Text = hours .. " Hour(s), " .. minutes .. " Minute(s), " .. seconds .. " Second(s)"
+			end
 			task.wait(1)
-		until not FRAME or not FRAME.Parent
+		until SINFOGUI.Parent == nil
 	end)
 end)
 
