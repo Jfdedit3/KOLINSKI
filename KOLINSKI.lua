@@ -193,19 +193,20 @@ scroll = {}
 Holder.Name = randomString()
 Holder.Parent = PARENT
 Holder.Active = true
-Holder.BackgroundColor3 = Color3.fromRGB(28, 28, 30)
-Holder.Position = UDim2.new(1, -320, 1, -260)
-Holder.Size = UDim2.new(0, 320, 0, 260)
-Holder.ClipsDescendants = true
+Holder.BackgroundColor3 = Color3.fromRGB(46, 46, 47)
+Holder.BorderSizePixel = 0
+Holder.Position = UDim2.new(1, -250, 1, -220)
+Holder.Size = UDim2.new(0, 250, 0, 220)
 Holder.ZIndex = 10
 table.insert(shade2,Holder)
 
 Title.Name = "Title"
 Title.Parent = Holder
 Title.Active = true
-Title.BackgroundColor3 = Color3.fromRGB(36, 36, 40)
-Title.Size = UDim2.new(1, 0, 0, 32)
-Title.Font = Enum.Font.GothamBold
+Title.BackgroundColor3 = Color3.fromRGB(36,36,37)
+Title.BorderSizePixel = 0
+Title.Size = UDim2.new(0, 250, 0, 20)
+Title.Font = Enum.Font.SourceSans
 Title.TextSize = 18
 if os.date("*t", os.time()).month == 4 then
 	Title.Text = "KOLINSKI v"  .. currentVersion
