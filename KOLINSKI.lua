@@ -7293,133 +7293,197 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 end)
 
 local canOpenExecutor = true
+
 addcmd('executor',{'exc'},function(args, speaker)
 	if not canOpenExecutor then return end
 	canOpenExecutor = false
 
 	local FRAME = Instance.new("Frame")
 	local shadow = Instance.new("Frame")
-	local PopupText = Instance.new("TextLabel")
+	local MainCorner = Instance.new("UICorner")
+	local TopBar = Instance.new("Frame")
+	local TopCorner = Instance.new("UICorner")
+	local Title = Instance.new("TextLabel")
 	local Exit = Instance.new("TextButton")
-	local ExitImage = Instance.new("ImageLabel")
-	local background = Instance.new("Frame")
-	local executeButton = Instance.new("TextButton")
-	local clearButton = Instance.new("TextButton")
+	local Content = Instance.new("Frame")
+	local TextContainer = Instance.new("ScrollingFrame")
 	local TextBox = Instance.new("TextBox")
+	local TextPadding = Instance.new("UIPadding")
+	local ButtonContainer = Instance.new("Frame")
+	local ExecuteBtn = Instance.new("TextButton")
+	local ClearBtn = Instance.new("TextButton")
+	local BtnLayout = Instance.new("UIListLayout")
 
 	FRAME.Name = randomString()
 	FRAME.Parent = PARENT
 	FRAME.Active = true
 	FRAME.BackgroundTransparency = 1
-	FRAME.Position = UDim2.new(0.5, -225, 0, -500)
-	FRAME.Size = UDim2.new(0, 450, 0, 20)
+	FRAME.Position = UDim2.new(0.5, -250, 0, -600)
+	FRAME.Size = UDim2.new(0, 500, 0, 320)
 	FRAME.ZIndex = 10
 	dragGUI(FRAME)
 
-	shadow.Name = "shadow"
+	shadow.Name = "Shadow"
 	shadow.Parent = FRAME
-	shadow.BackgroundColor3 = currentShade2
+	shadow.BackgroundColor3 = currentShade1
 	shadow.BorderSizePixel = 0
-	shadow.Size = UDim2.new(0, 450, 0, 20)
+	shadow.Size = UDim2.new(1, 0, 1, 0)
 	shadow.ZIndex = 10
-	table.insert(shade2,shadow)
+	table.insert(shade1, shadow)
 
-	PopupText.Name = "PopupText"
-	PopupText.Parent = shadow
-	PopupText.BackgroundTransparency = 1
-	PopupText.Size = UDim2.new(1, 0, 0.95, 0)
-	PopupText.ZIndex = 10
-	PopupText.Font = Enum.Font.SourceSans
-	PopupText.TextSize = 14
-	PopupText.Text = "Executor"
-	PopupText.TextColor3 = currentText1
-	PopupText.TextWrapped = true
-	table.insert(text1,PopupText)
+	MainCorner.CornerRadius = UDim.new(0, 8)
+	MainCorner.Parent = shadow
+
+	TopBar.Name = "TopBar"
+	TopBar.Parent = shadow
+	TopBar.BackgroundColor3 = currentShade2
+	TopBar.Size = UDim2.new(1, 0, 0, 35)
+	TopBar.ZIndex = 11
+	table.insert(shade2, TopBar)
+
+	TopCorner.CornerRadius = UDim.new(0, 8)
+	TopCorner.Parent = TopBar
+
+	local TopBarCover = Instance.new("Frame")
+	TopBarCover.Parent = TopBar
+	TopBarCover.BorderSizePixel = 0
+	TopBarCover.BackgroundColor3 = currentShade2
+	TopBarCover.Size = UDim2.new(1, 0, 0, 10)
+	TopBarCover.Position = UDim2.new(0, 0, 1, -10)
+	TopBarCover.ZIndex = 11
+	table.insert(shade2, TopBarCover)
+
+	Title.Name = "Title"
+	Title.Parent = TopBar
+	Title.BackgroundTransparency = 1
+	Title.Position = UDim2.new(0, 12, 0, 0)
+	Title.Size = UDim2.new(1, -45, 1, 0)
+	Title.Font = Enum.Font.GothamBold
+	Title.Text = "Script Executor"
+	Title.TextColor3 = currentText1
+	Title.TextSize = 14
+	Title.TextXAlignment = Enum.TextXAlignment.Left
+	Title.ZIndex = 12
+	table.insert(text1, Title)
 
 	Exit.Name = "Exit"
-	Exit.Parent = shadow
+	Exit.Parent = TopBar
 	Exit.BackgroundTransparency = 1
-	Exit.Position = UDim2.new(1, -20, 0, 0)
-	Exit.Size = UDim2.new(0, 20, 0, 20)
-	Exit.Text = ""
-	Exit.ZIndex = 10
+	Exit.Position = UDim2.new(1, -35, 0, 0)
+	Exit.Size = UDim2.new(0, 35, 0, 35)
+	Exit.Text = "X"
+	Exit.Font = Enum.Font.GothamBold
+	Exit.TextColor3 = Color3.fromRGB(255, 90, 90)
+	Exit.TextSize = 16
+	Exit.ZIndex = 12
 
-	ExitImage.Parent = Exit
-	ExitImage.BackgroundColor3 = Color3.new(1, 1, 1)
-	ExitImage.BackgroundTransparency = 1
-	ExitImage.Position = UDim2.new(0, 5, 0, 5)
-	ExitImage.Size = UDim2.new(0, 10, 0, 10)
-	ExitImage.Image = "rbxassetid://5054663650"
-	ExitImage.ZIndex = 10
+	Content.Name = "Content"
+	Content.Parent = shadow
+	Content.BackgroundTransparency = 1
+	Content.Position = UDim2.new(0, 10, 0, 45)
+	Content.Size = UDim2.new(1, -20, 1, -100)
+	Content.ZIndex = 11
 
-	background.Name = "background"
-	background.Parent = FRAME
-	background.Active = true
-	background.BackgroundColor3 = currentShade1
-	background.BorderSizePixel = 0
-	background.Position = UDim2.new(0, 0, 1, 0)
-	background.Size = UDim2.new(0, 450, 0, 250)
-	background.ZIndex = 10
-	table.insert(shade1,background)
+	TextContainer.Parent = Content
+	TextContainer.BackgroundColor3 = currentShade3
+	TextContainer.BorderSizePixel = 0
+	TextContainer.Size = UDim2.new(1, 0, 1, 0)
+	TextContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
+	TextContainer.ScrollBarThickness = 4
+	TextContainer.ZIndex = 12
+	table.insert(shade3, TextContainer)
+	
+	local TextCorner = Instance.new("UICorner")
+	TextCorner.CornerRadius = UDim.new(0, 6)
+	TextCorner.Parent = TextContainer
 
 	TextBox.Name = "Source"
-	TextBox.Parent = background
-	TextBox.BackgroundColor3 = currentShade3
-	TextBox.BorderSizePixel = 0
-	TextBox.Position = UDim2.new(0.02, 0, 0.05, 0)
-	TextBox.Size = UDim2.new(0.96, 0, 0.75, 0)
+	TextBox.Parent = TextContainer
+	TextBox.BackgroundTransparency = 1
+	TextBox.Size = UDim2.new(1, 0, 1, 0)
 	TextBox.ClearTextOnFocus = false
 	TextBox.Font = Enum.Font.Code
 	TextBox.MultiLine = true
-	TextBox.PlaceholderText = "-- Type your script here..."
+	TextBox.PlaceholderText = "-- Insert your Lua script here..."
 	TextBox.Text = ""
 	TextBox.TextColor3 = currentText1
 	TextBox.TextSize = 14
 	TextBox.TextXAlignment = Enum.TextXAlignment.Left
 	TextBox.TextYAlignment = Enum.TextYAlignment.Top
-	TextBox.ZIndex = 10
+	TextBox.ZIndex = 13
+	table.insert(text1, TextBox)
 
-	executeButton.Name = "Execute"
-	executeButton.Parent = background
-	executeButton.BackgroundColor3 = currentShade3
-	executeButton.BorderSizePixel = 0
-	executeButton.Position = UDim2.new(0.02, 0, 0.85, 0)
-	executeButton.Size = UDim2.new(0, 200, 0, 30)
-	executeButton.Font = Enum.Font.SourceSans
-	executeButton.Text = "Execute"
-	executeButton.TextColor3 = currentText1
-	executeButton.TextSize = 14
-	executeButton.ZIndex = 10
+	TextPadding.Parent = TextBox
+	TextPadding.PaddingLeft = UDim.new(0, 8)
+	TextPadding.PaddingRight = UDim.new(0, 8)
+	TextPadding.PaddingTop = UDim.new(0, 8)
 
-	clearButton.Name = "Clear"
-	clearButton.Parent = background
-	clearButton.BackgroundColor3 = currentShade3
-	clearButton.BorderSizePixel = 0
-	clearButton.Position = UDim2.new(0.53, 0, 0.85, 0)
-	clearButton.Size = UDim2.new(0, 200, 0, 30)
-	clearButton.Font = Enum.Font.SourceSans
-	clearButton.Text = "Clear"
-	clearButton.TextColor3 = currentText1
-	clearButton.TextSize = 14
-	clearButton.ZIndex = 10
+	TextBox:GetPropertyChangedSignal("Text"):Connect(function()
+		local lines = #TextBox.Text:split("\n")
+		TextContainer.CanvasSize = UDim2.new(0, 0, 0, lines * 18 + 20)
+	end)
 
-	executeButton.MouseButton1Click:Connect(function()
+	ButtonContainer.Name = "Buttons"
+	ButtonContainer.Parent = shadow
+	ButtonContainer.BackgroundTransparency = 1
+	ButtonContainer.Position = UDim2.new(0, 10, 1, -45)
+	ButtonContainer.Size = UDim2.new(1, -20, 0, 35)
+	ButtonContainer.ZIndex = 12
+
+	BtnLayout.Parent = ButtonContainer
+	BtnLayout.FillDirection = Enum.FillDirection.Horizontal
+	BtnLayout.Padding = UDim.new(0, 10)
+	BtnLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+	local function createBtn(name, text, color)
+		local btn = Instance.new("TextButton")
+		btn.Name = name
+		btn.Parent = ButtonContainer
+		btn.BackgroundColor3 = currentShade3
+		btn.Size = UDim2.new(0.5, -5, 1, 0)
+		btn.Font = Enum.Font.GothamBold
+		btn.Text = text
+		btn.TextColor3 = color or currentText1
+		btn.TextSize = 14
+		btn.ZIndex = 13
+		
+		local c = Instance.new("UICorner")
+		c.CornerRadius = UDim.new(0, 6)
+		c.Parent = btn
+		
+		table.insert(shade3, btn)
+		return btn
+	end
+
+	ExecuteBtn = createBtn("Execute", "Execute", Color3.fromRGB(100, 255, 100))
+	ClearBtn = createBtn("Clear", "Clear", currentText1)
+
+	ExecuteBtn.MouseButton1Click:Connect(function()
+		local code = TextBox.Text
+		if code == "" then return end
+		
+		ExecuteBtn.Text = "Executing..."
 		local success, err = pcall(function()
-			loadstring(TextBox.Text)()
+			local func = loadstring(code)
+			if func then func() else error("Syntax Error") end
 		end)
+		
 		if not success then
 			notify('Executor Error', err)
 		end
+		task.wait(0.5)
+		ExecuteBtn.Text = "Execute"
 	end)
 
-	clearButton.MouseButton1Click:Connect(function()
+	ClearBtn.MouseButton1Click:Connect(function()
 		TextBox.Text = ""
+		TextContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
 	end)
 
-	FRAME:TweenPosition(UDim2.new(0.5, -225, 0, 100), "InOut", "Quart", 0.5, true, nil) 
+	FRAME:TweenPosition(UDim2.new(0.5, -250, 0.5, -160), "Out", "Quart", 0.5, true)
 
 	Exit.MouseButton1Click:Connect(function()
-		FRAME:TweenPosition(UDim2.new(0.5, -225, 0, -500), "InOut", "Quart", 0.5, true, nil) 
+		FRAME:TweenPosition(UDim2.new(0.5, -250, 0, -600), "In", "Back", 0.5, true)
 		task.wait(0.6)
 		FRAME:Destroy()
 		canOpenExecutor = true
