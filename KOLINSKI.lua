@@ -14215,7 +14215,7 @@ task.spawn(function()
 	IntroBackground:Destroy()
 	minimizeHolder()
 	if IsOnMobile then
-		notify("KOLINSKI Client has loaded. Made by z4trox!")
+		notify("KOLINSKI Client has loaded.")
 		if game.PlaceId == 574746640 then
 			task.wait(3)
 			notify("4nn1's Place","Game Detected! Some commands were added/changed/removed")
