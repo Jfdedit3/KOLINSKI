@@ -6975,6 +6975,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 	local cursorHistory = {}
 	local currentCursor = ""
 	local currentPage = 1
+	local nextPageCursor = nil
 
 	local FRAME = Instance.new("Frame")
 	local shadow = Instance.new("Frame")
@@ -7136,7 +7137,17 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 
 	local function renderList(data)
 		clearList()
-		if not data or not data.data then return end
+		if not data or not data.data or #data.data == 0 then 
+			local noServers = Instance.new("TextLabel")
+			noServers.Parent = ScrollingFrame
+			noServers.BackgroundTransparency = 1
+			noServers.Size = UDim2.new(1, 0, 0, 50)
+			noServers.Font = Enum.Font.Gotham
+			noServers.Text = "No servers found."
+			noServers.TextColor3 = currentText1
+			noServers.TextSize = 14
+			return 
+		end
 
 		for i, server in ipairs(data.data) do
 			local Card = Instance.new("Frame")
@@ -7228,7 +7239,7 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 	local function loadServers(curs)
 		RefreshBtn.Text = "..."
 		local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Desc&limit=100"
-		if curs then
+		if curs and curs ~= "" then
 			url = url .. "&cursor=" .. curs
 		end
 
@@ -7239,7 +7250,6 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 		if success and result.StatusCode == 200 then
 			local body = HttpService:JSONDecode(result.Body)
 			renderList(body)
-			currentCursor = body.nextPageCursor
 			RefreshBtn.Text = "Refresh"
 			return body.nextPageCursor
 		else
@@ -7249,14 +7259,15 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 		end
 	end
 
-	local nextPageCursor = loadServers()
+	nextPageCursor = loadServers()
 
 	NextBtn.MouseButton1Click:Connect(function()
-		if nextPageCursor then
-			table.insert(cursorHistory, nextPageCursor)
+		if nextPageCursor and nextPageCursor ~= "" then
+			local currentCursorForThisPage = nextPageCursor
+			table.insert(cursorHistory, currentCursorForThisPage)
 			currentPage = currentPage + 1
 			PageLabel.Text = "Page " .. currentPage
-			nextPageCursor = loadServers(nextPageCursor)
+			nextPageCursor = loadServers(currentCursorForThisPage)
 		else
 			notify("Info", "No more pages.")
 		end
@@ -7268,17 +7279,12 @@ addcmd('serverlist',{'slist'},function(args, speaker)
 			PageLabel.Text = "Page " .. currentPage
 			table.remove(cursorHistory) 
 			local prevCursor = cursorHistory[#cursorHistory] 
-			
-			if currentPage == 1 then prevCursor = nil end
 			nextPageCursor = loadServers(prevCursor)
 		end
 	end)
 
 	RefreshBtn.MouseButton1Click:Connect(function()
-		local activeCursor = nil
-		if currentPage > 1 then
-			activeCursor = cursorHistory[#cursorHistory]
-		end
+		local activeCursor = cursorHistory[#cursorHistory]
 		nextPageCursor = loadServers(activeCursor)
 	end)
 
