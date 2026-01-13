@@ -4876,7 +4876,7 @@ CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DE
 CMDs[#CMDs + 1] = {NAME = 'executor / exc', ALIAS = {'exc'}, DESC = 'Opens a script executor GUI'}
 CMDs[#CMDs + 1] = {NAME = 'madahub / mh', ALIAS = {'mh'}, DESC = 'Executes Mada Hub script'}
 CMDs[#CMDs + 1] = {NAME = 'identify / idn', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
-CMDs[#CMDs + 1] = {NAME = 'cmds', ALIAS = {'idn'}, DESC = ''}
+CMDs[#CMDs + 1] = {NAME = 'cmds', ALIAS = {'cmds'}, DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attemps to patch some vulns'}
