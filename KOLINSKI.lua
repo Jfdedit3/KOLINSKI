@@ -193,10 +193,10 @@ scroll = {}
 Holder.Name = randomString()
 Holder.Parent = PARENT
 Holder.Active = true
-Holder.BackgroundColor3 = Color3.fromRGB(46, 46, 47)
-Holder.BorderSizePixel = 0
-Holder.Position = UDim2.new(1, -250, 1, -220)
-Holder.Size = UDim2.new(0, 250, 0, 220)
+Holder.BackgroundColor3 = Color3.fromRGB(28, 28, 30)
+Holder.Position = UDim2.new(1, -320, 1, -260)
+Holder.Size = UDim2.new(0, 320, 0, 260)
+Holder.ClipsDescendants = true
 Holder.ZIndex = 10
 table.insert(shade2,Holder)
 
