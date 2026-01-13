@@ -4876,6 +4876,7 @@ CMDs[#CMDs + 1] = {NAME = 'whatexpsareonline / whatexploitsareonline / weao', DE
 CMDs[#CMDs + 1] = {NAME = 'executor / exc', ALIAS = {'exc'}, DESC = 'Opens a script executor GUI'}
 CMDs[#CMDs + 1] = {NAME = 'madahub / mh', ALIAS = {'mh'}, DESC = 'Executes Mada Hub script'}
 CMDs[#CMDs + 1] = {NAME = 'identify / idn', ALIAS = {'idn'}, DESC = 'Displays your current executor'}
+CMDs[#CMDs + 1] = {NAME = 'cmds / help', ALIAS = {'cmds'}, DESC = 'help command'}
 CMDs[#CMDs + 1] = {NAME = 'robloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'unrobloxstaffwatch', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = "vulnspatch / vpatcher / vulnspatcher", DESC = 'Attemps to patch some vulns'}
@@ -10236,6 +10237,254 @@ local executor = (identifyexecutor and identifyexecutor()) or (getexecutorname a
 
 addcmd("identify", {"idn"}, function(args, speaker)
 	notify('Executor', 'Executor: ' .. executor)
+end)
+
+addcmd('cmds', {'help'}, function(args, speaker)
+    local FRAME = Instance.new("Frame")
+    local shadow = Instance.new("Frame")
+    local MainCorner = Instance.new("UICorner")
+    local TopBar = Instance.new("Frame")
+    local TopCorner = Instance.new("UICorner")
+    local Title = Instance.new("TextLabel")
+    local Exit = Instance.new("TextButton")
+    local ContentFrame = Instance.new("Frame")
+    local ScrollingFrame = Instance.new("ScrollingFrame")
+    local UIListLayout = Instance.new("UIListLayout")
+    local UIPadding = Instance.new("UIPadding")
+
+    FRAME.Name = randomString()
+    FRAME.Parent = PARENT
+    FRAME.Active = true
+    FRAME.BackgroundTransparency = 1
+    FRAME.Position = UDim2.new(0.5, -200, 0.5, -200) -- Position initiale au centre
+    FRAME.Size = UDim2.new(0, 400, 0, 400)
+    FRAME.ZIndex = 10
+    dragGUI(FRAME)
+
+    shadow.Name = "Shadow"
+    shadow.Parent = FRAME
+    shadow.BackgroundColor3 = currentShade1
+    shadow.BorderSizePixel = 0
+    shadow.Size = UDim2.new(1, 0, 1, 0)
+    shadow.ZIndex = 10
+
+    MainCorner.CornerRadius = UDim.new(0, 8)
+    MainCorner.Parent = shadow
+
+    TopBar.Name = "TopBar"
+    TopBar.Parent = shadow
+    TopBar.BackgroundColor3 = currentShade2
+    TopBar.Size = UDim2.new(1, 0, 0, 35)
+    TopBar.ZIndex = 11
+
+    TopCorner.CornerRadius = UDim.new(0, 8)
+    TopCorner.Parent = TopBar
+
+    local TopBarCover = Instance.new("Frame")
+    TopBarCover.Parent = TopBar
+    TopBarCover.BorderSizePixel = 0
+    TopBarCover.BackgroundColor3 = currentShade2
+    TopBarCover.Size = UDim2.new(1, 0, 0, 10)
+    TopBarCover.Position = UDim2.new(0, 0, 1, -10)
+    TopBarCover.ZIndex = 11
+
+    Title.Name = "Title"
+    Title.Parent = TopBar
+    Title.BackgroundTransparency = 1
+    Title.Size = UDim2.new(1, -40, 1, 0)
+    Title.Position = UDim2.new(0, 15, 0, 0)
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = "Commandes Disponibles"
+    Title.TextColor3 = currentText1
+    Title.TextSize = 16
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.ZIndex = 12
+
+    Exit.Name = "Exit"
+    Exit.Parent = TopBar
+    Exit.BackgroundTransparency = 1
+    Exit.Position = UDim2.new(1, -35, 0, 0)
+    Exit.Size = UDim2.new(0, 35, 0, 35)
+    Exit.Text = "X"
+    Exit.Font = Enum.Font.GothamBold
+    Exit.TextSize = 18
+    Exit.TextColor3 = Color3.fromRGB(255, 100, 100)
+    Exit.ZIndex = 12
+
+    ContentFrame.Name = "Content"
+    ContentFrame.Parent = shadow
+    ContentFrame.BackgroundTransparency = 1
+    ContentFrame.Position = UDim2.new(0, 0, 0, 35)
+    ContentFrame.Size = UDim2.new(1, 0, 1, -35)
+    ContentFrame.ZIndex = 11
+
+    ScrollingFrame.Parent = ContentFrame
+    ScrollingFrame.Active = true
+    ScrollingFrame.BackgroundTransparency = 1
+    ScrollingFrame.Size = UDim2.new(1, 0, 1, 0)
+    ScrollingFrame.ScrollBarThickness = 4
+    ScrollingFrame.ScrollBarImageColor3 = currentText1
+    ScrollingFrame.ZIndex = 11
+
+    UIListLayout.Parent = ScrollingFrame
+    UIListLayout.Padding = UDim.new(0, 5)
+    UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+    UIPadding.Parent = ScrollingFrame
+    UIPadding.PaddingTop = UDim.new(0, 10)
+    UIPadding.PaddingBottom = UDim.new(0, 10)
+
+    local CMDs = {
+        {NAME = 'enablestate [StateType]', DESC = 'Enables a humanoid state type'},
+        {NAME = 'disablestate [StateType]', DESC = 'Disables a humanoid state type'},
+        {NAME = 'team [team name] (CLIENT)', DESC = 'Changes your team. Sometimes fools localscripts.'},
+        {NAME = 'nobillboardgui / nobgui / noname', DESC = 'Removes billboard and surface guis from your players (i.e. name guis at cafes)'},
+        {NAME = 'loopnobgui / loopnoname', DESC = 'Loop removes billboard and surface guis from your players (i.e. name guis at cafes)'},
+        {NAME = 'unloopnobgui / unloopnoname', DESC = 'Disables loopnobgui'},
+        {NAME = 'nohead / headless', DESC = 'Removes your head (uses simulation radius)'},
+        {NAME = 'noarms', DESC = 'Removes your arms'},
+        {NAME = 'nolegs', DESC = 'Removes your legs'},
+        {NAME = 'nolimbs', DESC = 'Removes your limbs'},
+        {NAME = 'naked (CLIENT)', DESC = 'Removes your clothing'},
+        {NAME = 'noface / removeface', DESC = 'Removes your face'},
+        {NAME = 'unhatspin / unspinhats', DESC = 'Undoes spinhats'},
+        {NAME = 'clearhats / cleanhats', DESC = 'Clears hats in the workspace'},
+        {NAME = 'chardelete / cd [instance name]', DESC = 'Removes any part with a certain name from your character'},
+        {NAME = 'chardeleteclass / cdc [class name]', DESC = 'Removes any part with a certain classname from your character'},
+        {NAME = 'deletevelocity / dv / removeforces', DESC = 'Removes any velocity / force instances in your character'},
+        {NAME = 'unspin', DESC = 'Disables spin'},
+        {NAME = 'vr', DESC = 'Loads CLOVR by Abacaxl'},
+        {NAME = 'split', DESC = 'Splits your character in half'},
+        {NAME = 'nilchar', DESC = 'Sets your characters parent to nil'},
+        {NAME = 'unnilchar / nonilchar', DESC = 'Sets your characters parent to workspace'},
+        {NAME = 'noroot / removeroot / rroot', DESC = 'Removes your characters HumanoidRootPart'},
+        {NAME = 'replaceroot', DESC = 'Replaces your characters HumanoidRootPart'},
+        {NAME = 'clearcharappearance / clearchar / clrchar', DESC = 'Removes all accessory, shirt, pants, charactermesh, and bodycolors'},
+        {NAME = 'animation / anim [ID] [speed]', DESC = 'Makes your character perform an animation (must be by roblox to replicate)'},
+        {NAME = 'dance', DESC = 'Makes you d a n c e'},
+        {NAME = 'undance', DESC = 'Stops dance animations'},
+        {NAME = 'spasm', DESC = 'Makes you c r a z y'},
+        {NAME = 'unspasm', DESC = 'Stops spasm'},
+        {NAME = 'unhovername / nohovername', DESC = 'Turns off hovername'},
+        {NAME = 'mousesensitivity / ms [0-10]', DESC = 'Sets your mouse sensitivity (affects first person and right click drag) (default is 1)'},
+        {NAME = 'clickdelete', DESC = 'Go to settings>Keybinds>Add for clicktp'},
+        {NAME = 'clickteleport', DESC = 'Go to settings>Keybinds>Add for click tp'},
+        {NAME = 'tools', DESC = 'Copies tools from ReplicatedStorage and Lighting'},
+        {NAME = 'notools / removetools / deletetools', DESC = 'Removes tools from character and backpack'},
+        {NAME = 'deleteselectedtool / dst', DESC = 'Removes any currently selected tools'},
+        {NAME = 'grabtools', DESC = 'Automatically get tools that are dropped'},
+        {NAME = 'ungrabtools / nograbtools', DESC = 'Disables grabtools'},
+        {NAME = 'copytools [player] (CLIENT)', DESC = 'Copies a players tools'},
+        {NAME = 'unshowguis', DESC = 'Undoes showguis'},
+        {NAME = 'hideguis', DESC = 'Hides any GUIs in PlayerGui'},
+        {NAME = 'unhideguis', DESC = 'Undoes hideguis'},
+        {NAME = 'guidelete', DESC = 'Enables backspace to delete GUI'},
+        {NAME = 'unguidelete / noguidelete', DESC = 'Disables guidelete'},
+        {NAME = 'hideiy', DESC = 'Hides the main IY GUI'},
+        {NAME = 'showiy / unhideiy', DESC = 'Shows IY again'},
+        {NAME = 'unremovespecifictool [name]', DESC = 'Stops removing a specific tool from your inventory'},
+        {NAME = 'clearremovespecifictool', DESC = 'Stop removing all specific tools from your inventory'},
+        {NAME = 'reach [num]', DESC = 'Increases the hitbox of your held tool'},
+        {NAME = 'unreach / noreach', DESC = 'Turns off reach'},
+        {NAME = 'grippos [X Y Z]', DESC = 'Changes your current tools grip position'},
+        {NAME = 'removeplugin / deleteplugin [name]', DESC = 'Remove a plugin via command'},
+        {NAME = 'reloadplugin [name]', DESC = 'Reloads a plugin'},
+        {NAME = 'breakloops / break (cmd loops)', DESC = 'Stops any cmd loops (;100^1^cmd)'},
+        {NAME = 'removecmd / deletecmd', DESC = 'Removes a command until the admin is reloaded'},
+        {NAME = 'tpwalk / teleportwalk [num]', DESC = 'Teleports you to your move direction'},
+        {NAME = 'esptransparency [number]', DESC = 'Changes the transparency of esp related commands'},
+        {NAME = 'partesp [part name]', DESC = 'Highlights a part'},
+        {NAME = 'unpartesp / nopartesp [part name]', DESC = 'removes partesp'},
+        {NAME = 'chams', DESC = 'ESP but without text in the way'},
+        {NAME = 'nochams / unchams', DESC = 'Removes chams'},
+        {NAME = 'locate [player]', DESC = 'View a single player and their status'},
+        {NAME = 'unlocate / nolocate [player]', DESC = 'Removes locate'},
+        {NAME = 'btools (CLIENT)', DESC = 'Gives you building tools (DOES NOT REPLICATE)'},
+        {NAME = 'f3x / fex (CLIENT)', DESC = 'Gives you F3X building tools (DOES NOT REPLICATE)'},
+        {NAME = 'partname / partpath', DESC = 'Allows you to click a part to see its path & name'},
+        {NAME = 'delete [instance name] (CLIENT)', DESC = 'Removes any part with a certain name from the workspace (DOES NOT REPLICATE)'},
+        {NAME = 'deleteclass / dc [class name] (CLIENT)', DESC = 'Removes any part with a certain classname from the workspace (DOES NOT REPLICATE)'},
+        {NAME = 'lockworkspace / lockws', DESC = 'Locks the whole workspace'},
+        {NAME = 'unlockworkspace / unlockws', DESC = 'Unlocks the whole workspace'},
+        {NAME = 'invisibleparts / invisparts (CLIENT)', DESC = 'Shows invisible parts'},
+        {NAME = 'uninvisibleparts / uninvisparts (CLIENT)', DESC = 'Makes parts affected by invisparts return to normal'},
+        {NAME = 'deleteinvisparts / dip (CLIENT)', DESC = 'Deletes invisible parts'},
+        {NAME = 'gotopart [part name]', DESC = 'Moves your character to a part or multiple parts'},
+        {NAME = 'tweengotopart / tgotopart [part name]', DESC = 'Tweens your character to a part or multiple parts'},
+        {NAME = 'gotopartclass / gpc [class name]', DESC = 'Moves your character to a part or multiple parts based on classname'},
+        {NAME = 'unflyfling', DESC = 'Disables the flyfling command'},
+        {NAME = 'invisfling', DESC = 'Enables invisible fling'},
+        {NAME = 'loopoof', DESC = 'Loops everyones character sounds (everyone can hear)'},
+        {NAME = 'unloopoof', DESC = 'Stops the oof chaos'},
+        {NAME = 'muteboombox [player]', DESC = 'Mutes someones boombox'},
+        {NAME = 'unmuteboombox [player]', DESC = 'Unmutes someones boombox'},
+        {NAME = 'bringpart [part name] (CLIENT)', DESC = 'Moves a part or multiple parts to your character'},
+        {NAME = 'bringpartclass / bpc [class name] (CLIENT)', DESC = 'Moves a part or multiple parts to your character based on classname'},
+        {NAME = 'noclickdetectorlimits / nocdlimits', DESC = 'Sets all click detectors MaxActivationDistance to math.huge'},
+        {NAME = 'fireclickdetectors / firecd [name]', DESC = 'Uses all click detectors in a game or uses the optional name'},
+        {NAME = 'firetouchinterests / touchinterests [name]', DESC = 'Uses all touchinterests in a game or uses the optional name'},
+        {NAME = 'noproximitypromptlimits / nopplimits', DESC = 'Sets all proximity prompts MaxActivationDistance to math.huge'},
+        {NAME = 'fireproximityprompts / firepp [name]', DESC = 'Uses all proximity prompts in a game or uses the optional name'},
+        {NAME = 'instantproximityprompts / instantpp', DESC = 'Disable the cooldown for proximity prompts'},
+        {NAME = 'uninstantproximityprompts / uninstantpp', DESC = 'Undo the cooldown removal'},
+        {NAME = 'tpunanchored / tpua [player]', DESC = 'Teleports unanchored parts to a player'},
+        {NAME = 'animsunanchored / freezeua', DESC = 'Freezes unanchored parts'},
+        {NAME = 'thawunanchored / thawua / unfreezeua', DESC = 'Thaws unanchored parts'},
+        {NAME = 'removeterrain / rterrain / noterrain', DESC = 'Removes all terrain'},
+        {NAME = 'clearnilinstances / nonilinstances / cni', DESC = 'Removes nil instances'},
+        {NAME = 'destroyheight / dh [num]', DESC = 'Sets FallenPartsDestroyHeight'},
+        {NAME = 'fullbright / fb (CLIENT)', DESC = 'Makes the map brighter / more visible'},
+        {NAME = 'loopfullbright / loopfb (CLIENT)', DESC = 'Makes the map brighter / more visible but looped'},
+        {NAME = 'unloopfullbright / unloopfb', DESC = 'Unloops fullbright'},
+        {NAME = 'ambient [num] [num] [num] (CLIENT)', DESC = 'Changes ambient'},
+        {NAME = 'copyuserid / copyid [player]', DESC = 'Copies a players user ID to your clipboard'},
+        {NAME = 'appearanceid / aid [player]', DESC = 'Notifies a players appearance ID'},
+        {NAME = 'copyappearanceid / caid [player]', DESC = 'Copies a players appearance ID to your clipboard'},
+        {NAME = 'bang / rape [player] [speed]', DESC = 'owo'},
+        {NAME = 'facebang / facefuck / facerape [player] [speed]', DESC = '>w<'},
+        {NAME = 'unbang / unrape / unfacefuck / unfacebang / unfacerape', DESC = 'uwu'}
+    }
+
+    -- Itération sur la variable locale CMDs pour créer les labels
+    for _, cmdData in pairs(CMDs) do
+        if cmdData and cmdData.NAME and cmdData.NAME ~= '' then -- S'assurer que NAME existe et n'est pas vide
+            local name = cmdData.NAME
+            local desc = cmdData.DESC or "Aucune description disponible"
+
+            local CmdLabel = Instance.new("TextLabel")
+            local LabelPadding = Instance.new("UIPadding")
+            local Corner = Instance.new("UICorner")
+            
+            CmdLabel.Name = "Cmd_" .. name:gsub("[%s/]", "_") -- Remplacer les espaces et slashs pour éviter les erreurs de nommage
+            CmdLabel.Parent = ScrollingFrame
+            CmdLabel.BackgroundColor3 = currentShade2
+            CmdLabel.Size = UDim2.new(0, 370, 0, 45) -- Augmenté pour accueillir la description
+            CmdLabel.Font = Enum.Font.Gotham
+            CmdLabel.Text = name .. "\n" .. desc -- Affiche le nom et la description
+            CmdLabel.TextColor3 = currentText1
+            CmdLabel.TextSize = 13 -- Réduit légèrement pour intégrer la description
+            CmdLabel.TextXAlignment = Enum.TextXAlignment.Left
+            CmdLabel.TextYAlignment = Enum.TextYAlignment.Top -- Alignement en haut pour le multi-ligne
+            CmdLabel.TextWrapped = true -- Retour à la ligne automatique
+            CmdLabel.ZIndex = 12
+
+            Corner.CornerRadius = UDim.new(0, 6)
+            Corner.Parent = CmdLabel
+
+            LabelPadding.Parent = CmdLabel
+            LabelPadding.PaddingLeft = UDim.new(0, 12)
+        end
+    end
+
+    -- Mise à jour de la taille du canvas après l'ajout des éléments
+    task.wait(0.1) -- Petit délai pour s'assurer que les éléments sont rendus
+    ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y + 20)
+
+    Exit.MouseButton1Click:Connect(function()
+        FRAME:TweenPosition(UDim2.new(0.5, -200, 0, -600), "In", "Back", 0.5, true)
+        task.wait(0.6)
+        FRAME:Destroy()
+    end)
 end)
 
 addcmd('madahub', {'mh'}, function(args, speaker)
