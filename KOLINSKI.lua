@@ -1,203 +1,187 @@
--- Initialisation sécurisée
-if IY_LOADED and not _G.IY_DEBUG then return end
+if IY_LOADED and not _G.IY_DEBUG then
+	-- error("KOLINSKI is already running!", 0)
+	return
+end
+
 pcall(function() getgenv().IY_LOADED = true end)
 
 local cloneref = cloneref or function(o) return o end
-local COREGUI = cloneref(game:GetService("CoreGui"))
-local Players = cloneref(game:GetService("Players"))
-local TweenService = cloneref(game:GetService("TweenService"))
-local RunService = cloneref(game:GetService("RunService"))
+COREGUI = cloneref(game:GetService("CoreGui"))
+Players = cloneref(game:GetService("Players"))
 
--- Configuration du Thème
-local Theme = {
-    Main = Color3.fromRGB(20, 20, 20),
-    Secondary = Color3.fromRGB(30, 30, 30),
-    Accent = Color3.fromRGB(0, 160, 255),
-    Text = Color3.fromRGB(240, 240, 240),
-    TextDark = Color3.fromRGB(150, 150, 150),
-    Font = Enum.Font.GothamMedium,
-    FontBold = Enum.Font.GothamBold,
-    CornerRadius = UDim.new(0, 8)
-}
+if not game:IsLoaded() then
+	local notLoaded = Instance.new("Message")
+	notLoaded.Parent = COREGUI
+	notLoaded.Text = 'KOLINSKI Client is waiting for the game to load'
+
+	game.Loaded:Wait()
+	notLoaded:Destroy()
+end
+
+currentVersion = '1.1'
+
+Holder = Instance.new("Frame")
+Title = Instance.new("TextLabel")
+Dark = Instance.new("Frame")
+Cmdbar = Instance.new("TextBox")
+CMDsF = Instance.new("ScrollingFrame")
+cmdListLayout = Instance.new("UIListLayout")
+SettingsButton = Instance.new("ImageButton")
+ColorsButton = Instance.new("ImageButton")
+Settings = Instance.new("Frame")
+Prefix = Instance.new("TextLabel")
+PrefixBox = Instance.new("TextBox")
+Keybinds = Instance.new("TextLabel")
+StayOpen = Instance.new("TextLabel")
+Button = Instance.new("Frame")
+On = Instance.new("TextButton")
+Positions = Instance.new("TextLabel")
+EventBind = Instance.new("TextLabel")
+Plugins = Instance.new("TextLabel")
+Example = Instance.new("TextButton")
+Notification = Instance.new("Frame")
+Title_2 = Instance.new("TextLabel")
+Text_2 = Instance.new("TextLabel")
+CloseButton = Instance.new("TextButton")
+CloseImage = Instance.new("ImageLabel")
+PinButton = Instance.new("TextButton")
+PinImage = Instance.new("ImageLabel")
+Tooltip = Instance.new("Frame")
+Title_3 = Instance.new("TextLabel")
+Description = Instance.new("TextLabel")
+IntroBackground = Instance.new("Frame")
+Logo = Instance.new("ImageLabel")
+Credits = Instance.new("TextBox")
+KeybindsFrame = Instance.new("Frame")
+Close = Instance.new("TextButton")
+Add = Instance.new("TextButton")
+Delete = Instance.new("TextButton")
+Holder_2 = Instance.new("ScrollingFrame")
+Example_2 = Instance.new("Frame")
+Text_3 = Instance.new("TextLabel")
+Delete_2 = Instance.new("TextButton")
+KeybindEditor = Instance.new("Frame")
+background_2 = Instance.new("Frame")
+Dark_3 = Instance.new("Frame")
+Directions = Instance.new("TextLabel")
+BindTo = Instance.new("TextButton")
+TriggerLabel = Instance.new("TextLabel")
+BindTriggerSelect = Instance.new("TextButton")
+Add_2 = Instance.new("TextButton")
+Toggles = Instance.new("ScrollingFrame")
+ClickTP  = Instance.new("TextLabel")
+Select = Instance.new("TextButton")
+ClickDelete = Instance.new("TextLabel")
+Select_2 = Instance.new("TextButton")
+Cmdbar_2 = Instance.new("TextBox")
+Cmdbar_3 = Instance.new("TextBox")
+CreateToggle = Instance.new("TextLabel")
+Button_2 = Instance.new("Frame")
+On_2 = Instance.new("TextButton")
+shadow_2 = Instance.new("Frame")
+PopupText_2 = Instance.new("TextLabel")
+Exit_2 = Instance.new("TextButton")
+ExitImage_2 = Instance.new("ImageLabel")
+PositionsFrame = Instance.new("Frame")
+Close_3 = Instance.new("TextButton")
+Delete_5 = Instance.new("TextButton")
+Part = Instance.new("TextButton")
+Holder_4 = Instance.new("ScrollingFrame")
+Example_4 = Instance.new("Frame")
+Text_5 = Instance.new("TextLabel")
+Delete_6 = Instance.new("TextButton")
+TP = Instance.new("TextButton")
+AliasesFrame = Instance.new("Frame")
+Close_2 = Instance.new("TextButton")
+Delete_3 = Instance.new("TextButton")
+Holder_3 = Instance.new("ScrollingFrame")
+Example_3 = Instance.new("Frame")
+Text_4 = Instance.new("TextLabel")
+Delete_4 = Instance.new("TextButton")
+Aliases = Instance.new("TextLabel")
+PluginsFrame = Instance.new("Frame")
+Close_4 = Instance.new("TextButton")
+Add_3 = Instance.new("TextButton")
+Holder_5 = Instance.new("ScrollingFrame")
+Example_5 = Instance.new("Frame")
+Text_6 = Instance.new("TextLabel")
+Delete_7 = Instance.new("TextButton")
+PluginEditor = Instance.new("Frame")
+background_3 = Instance.new("Frame")
+Dark_2 = Instance.new("Frame")
+Img = Instance.new("ImageButton")
+AddPlugin = Instance.new("TextButton")
+FileName = Instance.new("TextBox")
+About = Instance.new("TextLabel")
+Directions_2 = Instance.new("TextLabel")
+shadow_3 = Instance.new("Frame")
+PopupText_3 = Instance.new("TextLabel")
+Exit_3 = Instance.new("TextButton")
+ExitImage_3 = Instance.new("ImageLabel")
+AliasHint = Instance.new("TextLabel")
+PluginsHint = Instance.new("TextLabel")
+PositionsHint = Instance.new("TextLabel")
+ToPartFrame = Instance.new("Frame")
+background_4 = Instance.new("Frame")
+ChoosePart = Instance.new("TextButton")
+CopyPath = Instance.new("TextButton")
+Directions_3 = Instance.new("TextLabel")
+Path = Instance.new("TextLabel")
+shadow_4 = Instance.new("Frame")
+PopupText_5 = Instance.new("TextLabel")
+Exit_4 = Instance.new("TextButton")
+ExitImage_5 = Instance.new("ImageLabel")
+logs = Instance.new("Frame")
+shadow = Instance.new("Frame")
+Hide = Instance.new("TextButton")
+ImageLabel = Instance.new("ImageLabel")
+PopupText = Instance.new("TextLabel")
+Exit = Instance.new("TextButton")
+ImageLabel_2 = Instance.new("ImageLabel")
+background = Instance.new("Frame")
+chat = Instance.new("Frame")
+Clear = Instance.new("TextButton")
+SaveChatlogs = Instance.new("TextButton")
+Toggle = Instance.new("TextButton")
+scroll_2 = Instance.new("ScrollingFrame")
+join = Instance.new("Frame")
+Toggle_2 = Instance.new("TextButton")
+Clear_2 = Instance.new("TextButton")
+scroll_3 = Instance.new("ScrollingFrame")
+listlayout = Instance.new("UIListLayout",scroll_3)
+selectChat = Instance.new("TextButton")
+selectJoin = Instance.new("TextButton")
 
 function randomString()
-    local length = math.random(10,20)
-    local array = {}
-    for i = 1, length do array[i] = string.char(math.random(32, 126)) end
-    return table.concat(array)
+	local length = math.random(10,20)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
 end
 
--- Gestion du Parent UI
-local function getSafeParent()
-    local target = nil
-    if get_hidden_gui or gethui then
-        target = (get_hidden_gui or gethui)()
-    elseif syn and syn.protect_gui then
-        local sg = Instance.new("ScreenGui")
-        syn.protect_gui(sg)
-        sg.Parent = COREGUI
-        target = sg
-    else
-        target = COREGUI:FindFirstChild("RobloxGui") or COREGUI
-    end
-    
-    local MainGui = Instance.new("ScreenGui")
-    MainGui.Name = randomString()
-    MainGui.ResetOnSpawn = false
-    MainGui.Parent = target
-    return MainGui
+PARENT = nil
+if get_hidden_gui or gethui then
+	local hiddenUI = get_hidden_gui or gethui
+	local Main = Instance.new("ScreenGui")
+	Main.Name = randomString()
+	Main.Parent = hiddenUI()
+	PARENT = Main
+elseif (not is_sirhurt_closure) and (syn and syn.protect_gui) then
+	local Main = Instance.new("ScreenGui")
+	Main.Name = randomString()
+	syn.protect_gui(Main)
+	Main.Parent = COREGUI
+	PARENT = Main
+elseif COREGUI:FindFirstChild('RobloxGui') then
+	PARENT = COREGUI.RobloxGui
+else
+	local Main = Instance.new("ScreenGui")
+	Main.Name = randomString()
+	Main.Parent = COREGUI
+	PARENT = Main
 end
-
-PARENT = getSafeParent()
-
--- Écran de chargement moderne
-if not game:IsLoaded() then
-    local Loader = Instance.new("Frame")
-    Loader.Size = UDim2.new(1, 0, 1, 0)
-    Loader.BackgroundColor3 = Theme.Main
-    Loader.ZIndex = 999
-    Loader.Parent = PARENT
-    
-    local Label = Instance.new("TextLabel")
-    Label.Size = UDim2.new(1, 0, 1, 0)
-    Label.BackgroundTransparency = 1
-    Label.Text = "KOLINSKI CLIENT\nWaiting for game resources..."
-    Label.TextColor3 = Theme.Text
-    Label.Font = Theme.FontBold
-    Label.TextSize = 22
-    Label.Parent = Loader
-
-    game.Loaded:Wait()
-    TweenService:Create(Loader, TweenInfo.new(1.5), {BackgroundTransparency = 1}):Play()
-    TweenService:Create(Label, TweenInfo.new(1), {TextTransparency = 1}):Play()
-    task.delay(1.5, function() Loader:Destroy() end)
-end
-
--- Helper pour créer des éléments rapidement
-local function create(class, props, parent)
-    local inst = Instance.new(class)
-    for i, v in pairs(props) do inst[i] = v end
-    if parent then inst.Parent = parent end
-    
-    -- Application automatique des coins arrondis
-    if class == "Frame" or class == "TextBox" or class == "TextButton" then
-        local corner = Instance.new("UICorner")
-        corner.CornerRadius = Theme.CornerRadius
-        corner.Parent = inst
-    end
-    return inst
-end
-
--- Structure de la fenêtre principale
-Holder = create("Frame", {
-    Name = "Main",
-    Size = UDim2.new(0, 500, 0, 350),
-    Position = UDim2.new(0.5, -250, 0.5, -175),
-    BackgroundColor3 = Theme.Main,
-    BorderSizePixel = 0,
-    Active = true,
-    Draggable = true -- Note: Utilise ta fonction dragGUI à la place si nécessaire
-}, PARENT)
-
-local Stroke = Instance.new("UIStroke")
-Stroke.Color = Theme.Secondary
-Stroke.Thickness = 1.5
-Stroke.Parent = Holder
-
--- Barre de titre
-TitleBar = create("Frame", {
-    Size = UDim2.new(1, 0, 0, 35),
-    BackgroundColor3 = Theme.Secondary,
-    BorderSizePixel = 0
-}, Holder)
-
-Title = create("TextLabel", {
-    Size = UDim2.new(1, -40, 1, 0),
-    Position = UDim2.new(0, 15, 0, 0),
-    BackgroundTransparency = 1,
-    Text = "KOLINSKI v" .. (currentVersion or "1.1"),
-    TextColor3 = Theme.Text,
-    TextSize = 14,
-    Font = Theme.FontBold,
-    TextXAlignment = Enum.TextXAlignment.Left
-}, TitleBar)
-
--- Zone de contenu
-Content = create("Frame", {
-    Size = UDim2.new(1, -20, 1, -90),
-    Position = UDim2.new(0, 10, 0, 45),
-    BackgroundTransparency = 1
-}, Holder)
-
-CMDsF = create("ScrollingFrame", {
-    Size = UDim2.new(1, 0, 1, 0),
-    BackgroundTransparency = 1,
-    ScrollBarThickness = 2,
-    ScrollBarImageColor3 = Theme.Accent,
-    CanvasSize = UDim2.new(0, 0, 0, 0)
-}, Content)
-
-UIListLayout = create("UIListLayout", {
-    Padding = UDim.new(0, 6),
-    SortOrder = Enum.SortOrder.LayoutOrder
-}, CMDsF)
-
--- Barre de commande (Input)
-Cmdbar = create("TextBox", {
-    Size = UDim2.new(1, -20, 0, 35),
-    Position = UDim2.new(0, 10, 1, -45),
-    BackgroundColor3 = Theme.Secondary,
-    Text = "",
-    PlaceholderText = "Entrez une commande (prefix: ;)",
-    TextColor3 = Theme.Text,
-    Font = Theme.Font,
-    TextSize = 14
-}, Holder)
-
--- Notifications (Améliorées)
-NotificationHolder = create("Frame", {
-    Size = UDim2.new(0, 250, 1, 0),
-    Position = UDim2.new(1, -260, 0, 0),
-    BackgroundTransparency = 1
-}, PARENT)
-
-local NotifyLayout = create("UIListLayout", {
-    VerticalAlignment = Enum.VerticalAlignment.Bottom,
-    Padding = UDim.new(0, 10)
-}, NotificationHolder)
-
--- Fonction de drag plus fluide (Optionnelle)
-local function makeDraggable(frame)
-    local dragging, dragInput, dragStart, startPos
-    frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            dragStart = input.Position
-            startPos = frame.Position
-        end
-    end)
-    frame.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then dragInput = input end
-    end)
-    game:GetService("UserInputService").InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            local delta = input.Position - dragStart
-            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-        end
-    end)
-    frame.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
-    end)
-end
-
-makeDraggable(Holder)
-
--- Animation d'introduction
-Holder.Size = UDim2.new(0, 0, 0, 0)
-Holder.ClipsDescendants = true
-TweenService:Create(Holder, TweenInfo.new(0.8, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-    Size = UDim2.new(0, 500, 0, 350)
-}):Play()
 
 shade1 = {}
 shade2 = {}
