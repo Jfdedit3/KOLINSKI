@@ -1,13 +1,156 @@
 if IY_LOADED and not _G.IY_DEBUG then
+	-- error("KOLINSKI is already running!", 0)
 	return
 end
 
 pcall(function() getgenv().IY_LOADED = true end)
 
 local cloneref = cloneref or function(o) return o end
-local COREGUI = cloneref(game:GetService("CoreGui"))
-local Players = cloneref(game:GetService("Players"))
-local TweenService = cloneref(game:GetService("TweenService"))
+COREGUI = cloneref(game:GetService("CoreGui"))
+Players = cloneref(game:GetService("Players"))
+
+if not game:IsLoaded() then
+	local notLoaded = Instance.new("Message")
+	notLoaded.Parent = COREGUI
+	notLoaded.Text = 'KOLINSKI Client is waiting for the game to load'
+
+	game.Loaded:Wait()
+	notLoaded:Destroy()
+end
+
+currentVersion = '1.1'
+
+Holder = Instance.new("Frame")
+Title = Instance.new("TextLabel")
+Dark = Instance.new("Frame")
+Cmdbar = Instance.new("TextBox")
+CMDsF = Instance.new("ScrollingFrame")
+cmdListLayout = Instance.new("UIListLayout")
+SettingsButton = Instance.new("ImageButton")
+ColorsButton = Instance.new("ImageButton")
+Settings = Instance.new("Frame")
+Prefix = Instance.new("TextLabel")
+PrefixBox = Instance.new("TextBox")
+Keybinds = Instance.new("TextLabel")
+StayOpen = Instance.new("TextLabel")
+Button = Instance.new("Frame")
+On = Instance.new("TextButton")
+Positions = Instance.new("TextLabel")
+EventBind = Instance.new("TextLabel")
+Plugins = Instance.new("TextLabel")
+Example = Instance.new("TextButton")
+Notification = Instance.new("Frame")
+Title_2 = Instance.new("TextLabel")
+Text_2 = Instance.new("TextLabel")
+CloseButton = Instance.new("TextButton")
+CloseImage = Instance.new("ImageLabel")
+PinButton = Instance.new("TextButton")
+PinImage = Instance.new("ImageLabel")
+Tooltip = Instance.new("Frame")
+Title_3 = Instance.new("TextLabel")
+Description = Instance.new("TextLabel")
+IntroBackground = Instance.new("Frame")
+Logo = Instance.new("ImageLabel")
+Credits = Instance.new("TextBox")
+KeybindsFrame = Instance.new("Frame")
+Close = Instance.new("TextButton")
+Add = Instance.new("TextButton")
+Delete = Instance.new("TextButton")
+Holder_2 = Instance.new("ScrollingFrame")
+Example_2 = Instance.new("Frame")
+Text_3 = Instance.new("TextLabel")
+Delete_2 = Instance.new("TextButton")
+KeybindEditor = Instance.new("Frame")
+background_2 = Instance.new("Frame")
+Dark_3 = Instance.new("Frame")
+Directions = Instance.new("TextLabel")
+BindTo = Instance.new("TextButton")
+TriggerLabel = Instance.new("TextLabel")
+BindTriggerSelect = Instance.new("TextButton")
+Add_2 = Instance.new("TextButton")
+Toggles = Instance.new("ScrollingFrame")
+ClickTP  = Instance.new("TextLabel")
+Select = Instance.new("TextButton")
+ClickDelete = Instance.new("TextLabel")
+Select_2 = Instance.new("TextButton")
+Cmdbar_2 = Instance.new("TextBox")
+Cmdbar_3 = Instance.new("TextBox")
+CreateToggle = Instance.new("TextLabel")
+Button_2 = Instance.new("Frame")
+On_2 = Instance.new("TextButton")
+shadow_2 = Instance.new("Frame")
+PopupText_2 = Instance.new("TextLabel")
+Exit_2 = Instance.new("TextButton")
+ExitImage_2 = Instance.new("ImageLabel")
+PositionsFrame = Instance.new("Frame")
+Close_3 = Instance.new("TextButton")
+Delete_5 = Instance.new("TextButton")
+Part = Instance.new("TextButton")
+Holder_4 = Instance.new("ScrollingFrame")
+Example_4 = Instance.new("Frame")
+Text_5 = Instance.new("TextLabel")
+Delete_6 = Instance.new("TextButton")
+TP = Instance.new("TextButton")
+AliasesFrame = Instance.new("Frame")
+Close_2 = Instance.new("TextButton")
+Delete_3 = Instance.new("TextButton")
+Holder_3 = Instance.new("ScrollingFrame")
+Example_3 = Instance.new("Frame")
+Text_4 = Instance.new("TextLabel")
+Delete_4 = Instance.new("TextButton")
+Aliases = Instance.new("TextLabel")
+PluginsFrame = Instance.new("Frame")
+Close_4 = Instance.new("TextButton")
+Add_3 = Instance.new("TextButton")
+Holder_5 = Instance.new("ScrollingFrame")
+Example_5 = Instance.new("Frame")
+Text_6 = Instance.new("TextLabel")
+Delete_7 = Instance.new("TextButton")
+PluginEditor = Instance.new("Frame")
+background_3 = Instance.new("Frame")
+Dark_2 = Instance.new("Frame")
+Img = Instance.new("ImageButton")
+AddPlugin = Instance.new("TextButton")
+FileName = Instance.new("TextBox")
+About = Instance.new("TextLabel")
+Directions_2 = Instance.new("TextLabel")
+shadow_3 = Instance.new("Frame")
+PopupText_3 = Instance.new("TextLabel")
+Exit_3 = Instance.new("TextButton")
+ExitImage_3 = Instance.new("ImageLabel")
+AliasHint = Instance.new("TextLabel")
+PluginsHint = Instance.new("TextLabel")
+PositionsHint = Instance.new("TextLabel")
+ToPartFrame = Instance.new("Frame")
+background_4 = Instance.new("Frame")
+ChoosePart = Instance.new("TextButton")
+CopyPath = Instance.new("TextButton")
+Directions_3 = Instance.new("TextLabel")
+Path = Instance.new("TextLabel")
+shadow_4 = Instance.new("Frame")
+PopupText_5 = Instance.new("TextLabel")
+Exit_4 = Instance.new("TextButton")
+ExitImage_5 = Instance.new("ImageLabel")
+logs = Instance.new("Frame")
+shadow = Instance.new("Frame")
+Hide = Instance.new("TextButton")
+ImageLabel = Instance.new("ImageLabel")
+PopupText = Instance.new("TextLabel")
+Exit = Instance.new("TextButton")
+ImageLabel_2 = Instance.new("ImageLabel")
+background = Instance.new("Frame")
+chat = Instance.new("Frame")
+Clear = Instance.new("TextButton")
+SaveChatlogs = Instance.new("TextButton")
+Toggle = Instance.new("TextButton")
+scroll_2 = Instance.new("ScrollingFrame")
+join = Instance.new("Frame")
+Toggle_2 = Instance.new("TextButton")
+Clear_2 = Instance.new("TextButton")
+scroll_3 = Instance.new("ScrollingFrame")
+listlayout = Instance.new("UIListLayout",scroll_3)
+selectChat = Instance.new("TextButton")
+selectJoin = Instance.new("TextButton")
 
 function randomString()
 	local length = math.random(10,20)
@@ -18,102 +161,27 @@ function randomString()
 	return table.concat(array)
 end
 
-local function getParent()
-	if get_hidden_gui or gethui then
-		local hiddenUI = get_hidden_gui or gethui
-		local Main = Instance.new("ScreenGui")
-		Main.Name = randomString()
-		Main.Parent = hiddenUI()
-		return Main
-	elseif (not is_sirhurt_closure) and (syn and syn.protect_gui) then
-		local Main = Instance.new("ScreenGui")
-		Main.Name = randomString()
-		syn.protect_gui(Main)
-		Main.Parent = COREGUI
-		return Main
-	else
-		local Main = Instance.new("ScreenGui")
-		Main.Name = randomString()
-		Main.Parent = COREGUI
-		return Main
-	end
+PARENT = nil
+if get_hidden_gui or gethui then
+	local hiddenUI = get_hidden_gui or gethui
+	local Main = Instance.new("ScreenGui")
+	Main.Name = randomString()
+	Main.Parent = hiddenUI()
+	PARENT = Main
+elseif (not is_sirhurt_closure) and (syn and syn.protect_gui) then
+	local Main = Instance.new("ScreenGui")
+	Main.Name = randomString()
+	syn.protect_gui(Main)
+	Main.Parent = COREGUI
+	PARENT = Main
+elseif COREGUI:FindFirstChild('RobloxGui') then
+	PARENT = COREGUI.RobloxGui
+else
+	local Main = Instance.new("ScreenGui")
+	Main.Name = randomString()
+	Main.Parent = COREGUI
+	PARENT = Main
 end
-
-PARENT = getParent()
-
-if not game:IsLoaded() then
-	local LoadingScreen = Instance.new("ScreenGui")
-	LoadingScreen.Parent = COREGUI
-	local LoadFrame = Instance.new("Frame")
-	LoadFrame.Size = UDim2.new(1, 0, 1, 0)
-	LoadFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-	LoadFrame.Parent = LoadingScreen
-	
-	local LoadLabel = Instance.new("TextLabel")
-	LoadLabel.Size = UDim2.new(1, 0, 1, 0)
-	LoadLabel.BackgroundTransparency = 1
-	LoadLabel.Text = "KOLINSKI IS WAITING FOR GAME LOAD..."
-	LoadLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-	LoadLabel.Font = Enum.Font.GothamBold
-	LoadLabel.TextSize = 20
-	LoadLabel.Parent = LoadFrame
-
-	game.Loaded:Wait()
-	TweenService:Create(LoadFrame, TweenInfo.new(1), {BackgroundTransparency = 1}):Play()
-	TweenService:Create(LoadLabel, TweenInfo.new(1), {TextTransparency = 1}):Play()
-	task.wait(1)
-	LoadingScreen:Destroy()
-end
-
-currentVersion = '1.1'
-
-local function create(class, properties)
-	local inst = Instance.new(class)
-	for i, v in pairs(properties) do
-		inst[i] = v
-	end
-	return inst
-end
-
-Holder = create("Frame", {Name = "Holder", Parent = PARENT, BackgroundTransparency = 1, Size = UDim2.new(0, 450, 0, 300), Position = UDim2.new(0.5, -225, 0.5, -150)})
-Title = create("TextLabel", {Name = "Title", Parent = Holder, Size = UDim2.size(1, 0, 0, 30), Font = Enum.Font.GothamBold, TextSize = 16, Text = "KOLINSKI"})
-Dark = create("Frame", {Name = "Dark", Parent = Holder, BackgroundColor3 = Color3.fromRGB(25, 25, 25), Size = UDim2.new(1, 0, 1, 0)})
-Cmdbar = create("TextBox", {Name = "Cmdbar", Parent = Holder, Size = UDim2.new(1, -20, 0, 30), Position = UDim2.new(0, 10, 1, -40)})
-CMDsF = create("ScrollingFrame", {Name = "CMDsF", Parent = Holder, BackgroundTransparency = 1, Size = UDim2.new(1, -10, 1, -80), Position = UDim2.new(0, 5, 0, 40)})
-cmdListLayout = create("UIListLayout", {Parent = CMDsF, Padding = UDim.new(0, 5)})
-
-Settings = create("Frame", {Name = "Settings", Parent = Holder, Visible = false, BackgroundColor3 = Color3.fromRGB(30, 30, 30), Size = UDim2.new(1, 0, 1, 0)})
-Notification = create("Frame", {Name = "Notification", Parent = PARENT, Size = UDim2.new(0, 250, 0, 100), Position = UDim2.new(1, -260, 1, -110), BackgroundColor3 = Color3.fromRGB(20, 20, 20)})
-Tooltip = create("Frame", {Name = "Tooltip", Parent = PARENT, Visible = false, BackgroundColor3 = Color3.fromRGB(40, 40, 40), Size = UDim2.new(0, 200, 0, 50)})
-IntroBackground = create("Frame", {Name = "Intro", Parent = PARENT, Size = UDim2.new(1, 0, 1, 0), BackgroundColor3 = Color3.fromRGB(10, 10, 10), ZIndex = 100})
-Logo = create("ImageLabel", {Parent = IntroBackground, Size = UDim2.new(0, 100, 0, 100), Position = UDim2.new(0.5, -50, 0.5, -50), BackgroundTransparency = 1, Image = "rbxassetid://0"})
-
-KeybindsFrame = create("Frame", {Name = "KeybindsFrame", Parent = PARENT, Visible = false, Size = UDim2.new(0, 300, 0, 400)})
-AliasesFrame = create("Frame", {Name = "AliasesFrame", Parent = PARENT, Visible = false, Size = UDim2.new(0, 300, 0, 400)})
-PluginsFrame = create("Frame", {Name = "PluginsFrame", Parent = PARENT, Visible = false, Size = UDim2.new(0, 300, 0, 400)})
-PositionsFrame = create("Frame", {Name = "PositionsFrame", Parent = PARENT, Visible = false, Size = UDim2.new(0, 300, 0, 400)})
-
-logs = create("Frame", {Name = "Logs", Parent = PARENT, Visible = false, Size = UDim2.new(0, 400, 0, 300), BackgroundColor3 = Color3.fromRGB(20, 20, 20)})
-background = create("Frame", {Name = "Background", Parent = logs, Size = UDim2.new(1, 0, 1, 0), BackgroundColor3 = Color3.fromRGB(30, 30, 30)})
-scroll_2 = create("ScrollingFrame", {Parent = background, Size = UDim2.new(1, -10, 1, -50), Position = UDim2.new(0, 5, 0, 40)})
-
-local function addCorner(obj, r)
-	local c = Instance.new("UICorner")
-	c.CornerRadius = UDim.new(0, r or 8)
-	c.Parent = obj
-end
-
-addCorner(Dark)
-addCorner(Cmdbar)
-addCorner(Notification)
-addCorner(Settings)
-addCorner(background)
-
-task.spawn(function()
-	TweenService:Create(IntroBackground, TweenInfo.new(1.5), {BackgroundTransparency = 1}):Play()
-	task.wait(1.5)
-	IntroBackground:Destroy()
-end)
 
 shade1 = {}
 shade2 = {}
