@@ -18,7 +18,7 @@ if not game:IsLoaded() then
 	notLoaded:Destroy()
 end
 
-currentVersion = '1.1'
+currentVersion = '1.2'
 
 Holder = Instance.new("Frame")
 Title = Instance.new("TextLabel")
@@ -4454,6 +4454,7 @@ CMDs[#CMDs + 1] = {NAME = 'serverinfo / info', DESC = 'Gives you info about the 
 CMDs[#CMDs + 1] = {NAME = 'jobid', DESC = 'Copies the games JobId to your clipboard'}
 CMDs[#CMDs + 1] = {NAME = 'notifyjobid', DESC = 'Notifies you the games JobId'}
 CMDs[#CMDs + 1] = {NAME = 'rejoin / rj', DESC = 'Makes you rejoin the game'}
+CMDs[#CMDs + 1] = {NAME = 'rejoinre / rjre', DESC = 'Rejoins and returns you to the position where you ran the command'}
 CMDs[#CMDs + 1] = {NAME = 'autorejoin / autorj', DESC = 'Automatically rejoins the server if you get kicked/disconnected'}
 CMDs[#CMDs + 1] = {NAME = 'serverhop / shop', DESC = 'Teleports you to a different server'}
 CMDs[#CMDs + 1] = {NAME = 'serverlist / slist', DESC = 'Lists you servers for you to join'}
@@ -6905,6 +6906,23 @@ addcmd("rejoin", {"rj"}, function(args, speaker)
 	else
 		TeleportService:TeleportToPlaceInstance(PlaceId, JobId, Players.LocalPlayer)
 	end
+end)
+
+addcmd("rejoinre", {"rjre"}, function(args, speaker)
+	if not queueteleport then
+		return notify('Incompatible Exploit','Your exploit does not support this command (missing queue_on_teleport)')
+	end
+	local char = speaker.Character
+	local root = char and getRoot(char)
+	if not root then
+		return notify('Rejoin Position Error','Missing character')
+	end
+	local cf = root.CFrame
+	queueteleport("spawn(function() repeat wait() until game:IsLoaded() local Player = game:GetService('Players').LocalPlayer local Character = Player.Character or Player.CharacterAdded:Wait() Character:WaitForChild('HumanoidRootPart').CFrame = CFrame.new("..tostring(cf)..") end)")
+	pcall(function()
+		TeleportService:TeleportCancel()
+	end)
+	TeleportService:TeleportToPlaceInstance(PlaceId, JobId, Players.LocalPlayer)
 end)
 
 addcmd("autorejoin", {"autorj"}, function(args, speaker)
@@ -10397,6 +10415,7 @@ addcmd('cmds', {'help'}, function(args, speaker)
         {NAME = '-- 4nn1\'s Place --', DESC = 'Commands for 4nn1\'s Place'},
         {NAME = 'kill [player]', DESC = 'Attempts to kill a player'},
         {NAME = 'rejoin / rj', DESC = 'Makes you rejoin the game'},
+        {NAME = 'rejoinre / rjre', DESC = 'Rejoins and returns you to the position where you ran the command'},
         {NAME = 'autorejoin / autorj', DESC = 'Automatically rejoins the server if you get kicked/disconnected'},
         {NAME = 'serverhop / shop', DESC = 'Teleports you to a different server'},
         {NAME = 'serverlist / slist', DESC = 'Lists you servers for you to join'},
